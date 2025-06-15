@@ -91,7 +91,7 @@ const Tab = ({
         });
       }}
       onClick={onClick}
-      className="relative z-10 block cursor-pointer py-1.5 text-xs uppercase text-black hover:text-slate-700 mix-blend-difference md:px-4 md:py-3 md:text-base"
+      className="relative z-10 block cursor-pointer py-1.5 text-xs uppercase text-black hover:text-[#31484D] mix-blend-difference md:px-4 md:py-3 md:text-base"
     >
       {children}
     </li>
@@ -104,7 +104,7 @@ const Cursor = ({ position }: { position: Position }) => {
       animate={{
         ...position,
       }}
-      className="absolute z-0 h-7 rounded-full bg-[#31484D] md:h-12"
+      className="absolute z-0 h-7 rounded-full bg-[#4FB3B0]/80 md:h-12"
     />
   );
 };
