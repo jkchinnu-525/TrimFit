@@ -44,16 +44,16 @@ export default function FAQ() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
         {/* Left Column */}
         <div className="space-y-8">
-          <h2 className="text-teal-600 text-[35px] font-black  font-['Noto_Serif_JP'] tracking-tighter">
+          <h2 className="text-teal-600 text-[35px] font-black  font-'Noto_Serif_JP' tracking-tighter">
             FAQ
           </h2>
 
           <div className="space-y-6">
-            <h1 className="text-[28px] lg:text-5xl font-semibold font-['Inter'] text-gray-900 leading-tight tracking-tight">
+            <h1 className="text-[28px] lg:text-5xl font-semibold font-'Inter' text-gray-900 leading-tighter">
               Frequently Asked Questions
             </h1>
 
-            <p className="text-gray-900 text-lg mr-6 text-wrap: balance font-regular font-['Inter'] leading-relaxed">
+            <p className="text-gray-900 text-lg mr-6 text-wrap: balance font-regular font-'Inter' leading-relaxed">
               For any unanswered questions, reach out to our support team.
               We&apos;ll respond as soon as possible to assist you.
             </p>

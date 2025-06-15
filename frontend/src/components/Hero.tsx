@@ -100,7 +100,7 @@ export default function Hero() {
               initial={{ opacity: 0, x: -300 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 1.5 }}
+              transition={{ duration: 1, delay: 0.5 }}
             >
               <div
                 className="absolute left-[730px] top-[200px] w-[1500px] 2xl:w-[1600px] 2xl:ml-1 2xl:top-[220px] h-[500px] z-0 -translate-x-1/2 pointer-events-none "

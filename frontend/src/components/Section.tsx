@@ -23,7 +23,7 @@ export default function Section() {
               </div>
               <div className="top-1/2 left-1/2 absolute flex justify-center items-center bg-[#4FB3B0]/80 rounded-full w-1.5 h-1.5 -translate-x-1/2 -translate-y-1/2"></div>
             </div>
-            <p className="text-xs font-medium font-['Inter'] pr-2 text-white">
+            <p className="text-xs font-medium font-'Inter' pr-2 text-white">
               Built for your job searching
             </p>
           </div>
@@ -34,19 +34,19 @@ export default function Section() {
             height={100}
             className="pt-4"
           />
-          <p className="text-black font-semibold font-['Inter'] text-[16px] leading-[24px] mt-8">
+          <p className="text-black font-semibold font-'Inter' text-[16px] leading-[24px] mt-8">
             Tailoring your resume isn&apos;t just about <br />
             keywords—it&apos;s about positioning yourself <br /> as the solution
             to the employer&apos;s needs.
           </p>
           <div className="flex gap-4 mt-8 w-fit items-center">
             <div className="bg-transparent h-[44px] rounded-2xl backdrop-blur-xs cursor-pointer hover:bg-gradient-to-t hover:from-[#4FB3B0]/45 hover:via-[#4FB3B0]/10 hover:to-transparent inline-flex items-center px-6 shadow-[0px_1.1877729892730713px_4.751091957092285px_0px_rgba(0,0,0,0.25),inset_-0.2969432473182678px_-2.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,0.8),inset_0.2969432473182678px_0.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,1)] transition-all duration-300">
-              <button className=" text-[14px] text-[#1b788a] font-regular cursor-pointer font-['Inter'] leading-[1.5] flex items-center gap-2">
+              <button className=" text-[14px] text-[#1b788a] font-regular cursor-pointer font-'Inter' leading-[1.5] flex items-center gap-2">
                 Login
               </button>
             </div>
             <div className="bg-transparent h-[44px] rounded-2xl backdrop-blur-xs cursor-pointer hover:bg-gradient-to-t hover:from-[#4FB3B0]/45 hover:via-[#4FB3B0]/10 hover:to-transparent inline-flex items-center px-6 shadow-[0px_1.1877729892730713px_4.751091957092285px_0px_rgba(0,0,0,0.25),inset_-0.2969432473182678px_-2.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,0.8),inset_0.2969432473182678px_0.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,1)] transition-all duration-300">
-              <button className=" text-[14px] text-[#1b788a] font-medium cursor-pointer font-['Inter'] leading-[1.5] flex items-center gap-2">
+              <button className=" text-[14px] text-[#1b788a] font-medium cursor-pointer font-'Inter' leading-[1.5] flex items-center gap-2">
                 Try Now
                 <div className="pt-0.5">
                   <svg

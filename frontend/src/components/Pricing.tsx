@@ -187,7 +187,7 @@ const PricingCard = ({
           {features.map((feature, index) => (
             <div key={index} className="flex items-center gap-3">
               <CheckIcon />
-              <span className="text-black/80 font-['Inter'] text-[18px] font-regular">
+              <span className="text-black font-'Inter' text-[18px] font-regular">
                 {feature}
               </span>
             </div>
@@ -211,7 +211,7 @@ const PricingCard = ({
 
 export default function Pricing() {
   return (
-    <div id="pricing" className="relative pt-10 px-4 bg-white ">
+    <div id="pricing" className="relative pt-10 px-4 bg-white min-h-screen">
       {/* Circular Background Gradient Mesh */}
       <CircularGradientMesh />
 
@@ -221,15 +221,15 @@ export default function Pricing() {
       <div className="relative z-20 max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-16">
-          <h1 className="text-[35px] font-black font-['Noto_Serif_JP'] text-[#3F8F8D] mb-8">
+          <h1 className="text-[35px] font-black font-'Noto_Serif_JP' text-[#3F8F8D] mb-8">
             Pricing
           </h1>
-          <h2 className="text-[45px] font-semibold font-['Noto_Serif_JP'] text-black/80 mb-6 leading-tight">
+          <h2 className="text-[45px] font-semibold font-'Noto_Serif_JP' text-black mb-6 leading-tight">
             Power Up Your Job Hunt: Choose
             <br />
             Your Perfect Plan
           </h2>
-          <p className="text-[18px] text-black font-medium font-['Inter'] max-w-5xl mx-auto leading-relaxed">
+          <p className="text-[18px] text-black font-medium font-'Inter' max-w-5xl mx-auto leading-relaxed">
             All plans include core AI tailoring, ATS optimization, and instant
             formatting.
             <br />
