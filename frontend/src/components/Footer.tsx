@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer id="footer" className="py-12">
-      <div className=" w-screen mx-auto flex flex-row items-center justify-between">
+      <div className=" w-screen mx-auto flex flex-col md:flex-row items-center justify-between">
         {/* Logo Section */}
         <div className="ml-10 items-center">
           <div
@@ -23,7 +23,7 @@ export default function Footer() {
                 </div>
               </div>
             </div>
-            <p className="text-black mt-4 text-wrap: balance text-[18px] font-'Inter' leading-relaxed max-w-md">
+            <p className="text-black mt-8 pr-16 md:pr-0 text-center md:text-left md:mt-4  text-wrap: balance text-[18px] font-'Inter' leading-relaxed max-w-md">
               Join our newsletter trusted by 1M+ Job Seekers to land their next
               role.
             </p>
@@ -33,7 +33,7 @@ export default function Footer() {
         {/* Newsletter Section */}
 
         {/* Links Section */}
-        <div className="grid grid-cols-1  md:grid-cols-3 gap-24 mr-14">
+        <div className="grid grid-cols-3 gap-24 px-4 lg:mr-14">
           {/* Product Column */}
           <div>
             <h3 className="font-'Inter' text-black text-[25px] mb-6 tracking-tight">
@@ -78,7 +78,7 @@ export default function Footer() {
                   href="#"
                   className="text-black/90 font-'Inter' font-regular text-[18px] hover:text-gray-600 transition-colors tracking-tight"
                 >
-                  Blog: AI Career Tips
+                  Tips & Blogs
                 </a>
               </li>
               <li>

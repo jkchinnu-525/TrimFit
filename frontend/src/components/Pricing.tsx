@@ -35,7 +35,7 @@ const CheckIcon = () => (
 
 // Circular Background Gradient Mesh Component
 const CircularGradientMesh = () => (
-  <div className="absolute top-[280px] left-1/2 -translate-x-1/2 w-[1200px] h-[800px] opacity-90 overflow-hidden pointer-events-none">
+  <div className="absolute top-[700px] lg:top-[280px] left-1/2 -translate-x-1/2 w-[1200px] h-[800px] opacity-90 overflow-hidden pointer-events-none">
     {/* Radar center point */}
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px]">
       {/* Concentric radar circles */}
@@ -96,7 +96,7 @@ const CircularGradientMesh = () => (
         />
       </div>
 
-      {/* <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] animate-[spin_10s_linear_infinite]">
+      {/* <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[900px] animate-[spin_10s_linear_infinite]">
         <div
           className="absolute left-0 top-1/2 -translate-y-1/2 w-[40px] h-[40px] rounded-full"
           style={{
@@ -196,7 +196,7 @@ const PricingCard = ({
 
         {/* Button */}
         <button
-          className={`w-full py-4 px-6 mb-8 cursor-pointer rounded-2xl font-medium text-lg transition-all duration-200 ${
+          className={`w-full py-3 md:py-3.5 lg:py-4 px-4 md:px-5 lg:px-6 mb-4 md:mb-6 lg:mb-8 cursor-pointer rounded-xl md:rounded-xl lg:rounded-2xl font-medium text-sm md:text-base lg:text-lg transition-all duration-200 ${
             buttonStyle === "primary"
               ? "bg-[#0a262c] text-white hover:bg-[#4FB3B0] shadow-[-45px_44px_45px_-29px_inset_#95D2D0,-23px_-23px_46px_-9px_inset_#000000]"
               : "bg-[#0a262c] text-white hover:bg-[#4FB3B0] shadow-[-45px_44px_45px_-29px_inset_#95D2D0,-23px_-23px_46px_-9px_inset_#000000]"
@@ -211,7 +211,10 @@ const PricingCard = ({
 
 export default function Pricing() {
   return (
-    <div id="pricing" className="relative pt-10 px-4 bg-white min-h-screen">
+    <div
+      id="pricing"
+      className="relative pt-6 md:pt-8 lg:pt-10 px-4 bg-white min-h-screen"
+    >
       {/* Circular Background Gradient Mesh */}
       <CircularGradientMesh />
 
@@ -220,25 +223,25 @@ export default function Pricing() {
 
       <div className="relative z-20 max-w-7xl mx-auto">
         {/* Header Section */}
-        <div className="text-center mb-16">
-          <h1 className="text-[35px] font-black font-'Noto_Serif_JP' text-[#3F8F8D] mb-8">
+        <div className="text-center mb-8 md:mb-12 lg:mb-16 px-2 md:px-4">
+          <h1 className="text-[24px] md:text-[30px] lg:text-[35px] font-black font-'Noto_Serif_JP' text-[#3F8F8D] mb-3 md:mb-4 lg:mb-6">
             Pricing
           </h1>
-          <h2 className="text-[45px] font-semibold font-'Noto_Serif_JP' text-black mb-6 leading-tight">
+          <h2 className="text-[28px] md:text-[36px] lg:text-[45px] font-semibold font-'Noto_Serif_JP' text-black mb-4 md:mb-5 lg:mb-6 leading-tight px-2 md:px-4">
             Power Up Your Job Hunt: Choose
-            <br />
+            <br className="hidden sm:block" />
             Your Perfect Plan
           </h2>
-          <p className="text-[18px] text-black font-medium font-'Inter' max-w-5xl mx-auto leading-relaxed">
+          <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black font-medium font-'Inter' max-w-4xl lg:max-w-5xl px-4 md:px-8 lg:px-14 xl:px-0 mx-auto leading-relaxed">
             All plans include core AI tailoring, ATS optimization, and instant
             formatting.
-            <br />
+            <br className="hidden sm:block" />
             Join our 92,000+ users who doubled interview rates.
           </p>
         </div>
 
         {/* Pricing Cards */}
-        <div className="flex flex-col lg:flex-row justify-center items-end gap-8 lg:gap-6 max-w-6xl mx-auto">
+        <div className="flex flex-col lg:flex-row justify-center items-stretch lg:items-end gap-6 md:gap-7 lg:gap-6 max-w-sm md:max-w-2xl lg:max-w-6xl mx-auto">
           {/* Free Plan */}
           <PricingCard
             title="Free"
@@ -250,7 +253,7 @@ export default function Pricing() {
               "1 template style",
             ]}
             buttonText="Start for free"
-            height="h-[520px]"
+            height="h-[480px] md:h-[480px] lg:h-[520px]"
           />
 
           {/* Basic Plan */}
@@ -266,7 +269,7 @@ export default function Pricing() {
             ]}
             buttonText="Get Started"
             isPopular={true}
-            height="h-[600px]"
+            height="h-[530px] md:h-[560px] lg:h-[600px]"
           />
 
           {/* Pro Plan */}
@@ -282,7 +285,7 @@ export default function Pricing() {
               "1-on-1 setup call",
             ]}
             buttonText="Go Pro"
-            height="h-[680px]"
+            height="h-[580px] md:h-[620px] lg:h-[680px]"
           />
         </div>
       </div>

@@ -47,7 +47,12 @@ const SlideTabs = () => {
       <Tab setPosition={setPosition} onClick={() => scrollToSection("section")}>
         Home
       </Tab>
-      <Tab setPosition={setPosition} onClick={() => scrollToSection("hero")}>
+      {/* Features - Hidden on mobile, visible on md+ */}
+      <Tab
+        setPosition={setPosition}
+        onClick={() => scrollToSection("hero")}
+        className="hidden md:block"
+      >
         Features
       </Tab>
       <Tab setPosition={setPosition} onClick={() => scrollToSection("aboutus")}>
@@ -56,7 +61,12 @@ const SlideTabs = () => {
       <Tab setPosition={setPosition} onClick={() => scrollToSection("pricing")}>
         Pricing
       </Tab>
-      <Tab setPosition={setPosition} onClick={() => scrollToSection("footer")}>
+      {/* Connect With Us - Hidden on mobile, visible on md+ */}
+      <Tab
+        setPosition={setPosition}
+        onClick={() => scrollToSection("footer")}
+        className="hidden md:block"
+      >
         Connect With Us
       </Tab>
 
@@ -69,10 +79,12 @@ const Tab = ({
   children,
   setPosition,
   onClick,
+  className = "",
 }: {
   children: React.ReactNode;
   setPosition: (pos: Position) => void;
   onClick?: () => void;
+  className?: string;
 }) => {
   const ref = useRef<HTMLLIElement>(null);
 
@@ -91,7 +103,8 @@ const Tab = ({
         });
       }}
       onClick={onClick}
-      className="relative z-10 block cursor-pointer py-1.5 text-xs uppercase text-black hover:text-[#31484D] mix-blend-difference md:px-4 md:py-3 md:text-base"
+      className={`relative z-10 block cursor-pointer py-1.5 text-xs uppercase text-black hover:text-[#31484D] mix-blend-difference px-2 md:px-4 md:py-3 md:text-[12px] lg:text-base ${className}`}
+      // className={`relative z-10 block cursor-pointer py-1 md:py-1.5 lg:py-1.5 text-[10px] md:text-xs lg:text-xs uppercase text-black hover:text-[#31484D] mix-blend-difference px-2 md:px-3 lg:px-4 md:py-3 lg:text-base ${className}`}
     >
       {children}
     </li>
@@ -104,7 +117,7 @@ const Cursor = ({ position }: { position: Position }) => {
       animate={{
         ...position,
       }}
-      className="absolute z-0 h-7 rounded-full bg-[#4FB3B0]/80 md:h-12"
+      className="absolute z-0 h-7 md:h-10 lg:h-12 rounded-full bg-[#4FB3B0]/80"
     />
   );
 };

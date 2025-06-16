@@ -44,16 +44,16 @@ export default function FAQ() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
         {/* Left Column */}
         <div className="space-y-8">
-          <h2 className="text-teal-600 text-[35px] font-black  font-'Noto_Serif_JP' tracking-tighter">
+          <h2 className="text-teal-600 text-center lg:text-left text-[35px] font-black  font-'Noto_Serif_JP' tracking-tighter">
             FAQ
           </h2>
 
           <div className="space-y-6">
-            <h1 className="text-[28px] lg:text-5xl font-semibold font-'Inter' text-gray-900 leading-tighter">
+            <h1 className="text-[28px] text-center lg:text-left lg:text-5xl font-semibold font-'Inter' text-gray-900 leading-tighter">
               Frequently Asked Questions
             </h1>
 
-            <p className="text-gray-900 text-lg mr-6 text-wrap: balance font-regular font-'Inter' leading-relaxed">
+            <p className="text-gray-900 lg:text-left text-center px-5 ml-6 md:ml-0 md:px-0 text-lg mr-6 text-wrap: balance font-regular font-'Inter' leading-relaxed">
               For any unanswered questions, reach out to our support team.
               We&apos;ll respond as soon as possible to assist you.
             </p>
@@ -61,7 +61,7 @@ export default function FAQ() {
         </div>
 
         {/* Right Column - FAQ Items */}
-        <div className="space-y-4">
+        <div className="space-y-4 ml-4 md:ml-0">
           {faqData.map((item) => (
             <div key={item.id} className="border-b border-gray-200 pb-4">
               <button
