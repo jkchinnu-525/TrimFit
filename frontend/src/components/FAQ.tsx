@@ -61,7 +61,7 @@ export default function FAQ() {
         </div>
 
         {/* Right Column - FAQ Items */}
-        <div className="space-y-4 ml-4 md:ml-0">
+        <div className="space-y-4 sm:ml-4">
           {faqData.map((item) => (
             <div key={item.id} className="border-b border-gray-200 pb-4">
               <button

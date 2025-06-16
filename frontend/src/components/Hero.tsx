@@ -81,14 +81,14 @@ export default function Hero() {
     <div id="hero">
       <div className="flex flex-col pb-16 md:pb-32 lg:pb-44">
         {/* Main hero container with proper height calculation */}
-        <div className="relative w-full min-h-screen">
+        <div className="relative w-full min-h-[250px] sm:min-h-[600px] md:min-h-[700px] lg:min-h-screen">
           <div className="relative w-full h-full" data-name="HeroSection">
             {/* Headline - Responsive */}
-            <div className="absolute left-1/2 top-[60px] md:top-[80px] lg:top-[96.044px] 2xl:left-[850px] 3xl:top-[100px] translate-x-[-50%] translate-y-[-50%] flex flex-col items-center text-center font-extrabold font-['Inter'] text-[#000] whitespace-pre px-4 md:px-6 lg:px-0">
-              <p className="text-[24px] md:text-[32px] lg:text-[45.0596px] font-black font-['Noto_Serif_JP'] leading-[1.2] md:leading-[1.3] lg:leading-[1.4] mb-0 mr-0 md:mr-4 lg:mr-8">
+            <div className="absolute left-1/2  top-[60px] md:top-[80px] lg:top-[96.044px] 2xl:left-[850px] 3xl:top-[100px] translate-x-[-50%] translate-y-[-50%] flex flex-col items-center text-center font-extrabold font-['Inter'] text-[#000] whitespace-pre px-4 md:px-6 lg:px-0">
+              <p className="text-[18px] sm:text-[24px] md:text-[32px] lg:text-[45.0596px] font-black font-['Noto_Serif_JP'] leading-[1.2] md:leading-[1.3] lg:leading-[1.4] mb-0 mr-0 md:mr-4 lg:mr-8">
                 Land More Interviews
               </p>
-              <p className="text-[24px] md:text-[32px] lg:text-[45.0596px] font-black font-['Noto_Serif_JP'] leading-[1.2] md:leading-[1.3] lg:leading-[1.4]">
+              <p className="text-[18px] sm:text-[24px] md:text-[32px] lg:text-[45.0596px] font-black font-['Noto_Serif_JP'] leading-[1.2] md:leading-[1.3] lg:leading-[1.4]">
                 Faster—{" "}
                 <span className="text-[#3f8f8d]">
                   No More Generic Applications
@@ -104,7 +104,7 @@ export default function Hero() {
               transition={{ duration: 1, delay: 0.5 }}
             >
               <div
-                className="absolute left-[290px] md:left-[730px] top-[90px] md:top-[200px] w-[840px] md:w-[1500px] 2xl:w-[1600px] 2xl:ml-1 2xl:top-[220px] h-[500px] z-0 -translate-x-1/2 pointer-events-none "
+                className="absolute left-[200px] sm:left-[310px] md:left-[380px] lg:left-[570px] xl:left-[720px] top-[130px] sm:top-[90px] md:top-[200px] lg:top-[220px] w-[600px] sm:w-[860px] md:w-[1200px] lg:w-[1600px] lg:ml-1 h-[200px] sm:h-[500px] z-0 -translate-x-1/2 pointer-events-none "
                 style={{
                   backgroundImage: "url(/Newlight.png)",
                   backgroundSize: "cover",
@@ -113,13 +113,13 @@ export default function Hero() {
               />
 
               {/* Reduced blur effect for better performance */}
-              <div className="absolute ml-16 left-1/2 top-[300px] blur-[40px] w-[1200px] h-[80px] -translate-x-1/2 pointer-events-none bg-[#D9D9D9]/10 z-1 rounded-full" />
+              <div className="absolute ml-16 left-1/2 top-[150px] sm:top-[300px] xl:top-[380px] blur-[100px] sm:w-[1200px] w-[800px] sm:h-[80px] h-[40px] -translate-x-1/2 pointer-events-none bg-[#D9D9D9]/10 z-1 rounded-full" />
             </motion.div>
           </div>
         </div>
 
         {/* Cards section with proper spacing - moved outside absolute positioning */}
-        <div className="relative w-full px-4 md:px-8 lg:px-16 -mt-64 md:-mt-72">
+        <div className="relative w-full px-4 md:px-8 lg:px-16 sm:-mt-64 md:-mt-64 lg:-mt-72 xl:-mt-80">
           <div className="flex flex-col md:flex-row md:gap-8 lg:gap-16 xl:gap-24 items-center justify-center relative max-w-7xl mx-auto">
             {/* Card 1 */}
             <div className="relative card-container md:mt-14 mb-44 md:mb-0 floating-card-1">
