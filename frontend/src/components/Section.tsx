@@ -74,7 +74,7 @@ export default function Section() {
           </div>
         </div>
         {/* Image section - responsive positioning */}
-        <div className="relative mt-4 sm:mt-8 md:mt-12 md:absolute md:-right-1 md:top-[35%] xl:top-[30%] md:-translate-y-1/2 z-10 px-0 sm:px-2 md:px-0">
+        <div className="relative mt-4 sm:mt-8 md:mt-12 md:right-2 md:absolute md:top-[35%] xl:top-[30%] md:-translate-y-1/2 z-10 px-0 sm:px-2 md:px-0">
           <div className="flex justify-center lg:justify-end">
             <Image
               src="/Pic.png"
