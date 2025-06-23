@@ -2,7 +2,6 @@ export default function Footer() {
   return (
     <footer id="footer" className="py-12">
       <div className=" w-screen mx-auto flex flex-col md:flex-row items-center justify-between">
-        {/* Logo Section */}
         <div className="ml-2 sm:ml-12 items-center">
           <div
             className="bg-[50%_50%] bg-cover bg-no-repeat h-[52px] w-[140px]"
@@ -30,11 +29,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Newsletter Section */}
-
-        {/* Links Section */}
         <div className="grid grid-cols-3 gap-20 sm:gap-24 px-2 mr-4 sm:px-4 lg:mr-14">
-          {/* Product Column */}
           <div>
             <h3 className="font-'Inter' text-black text-[12px] sm:text-[25px] font-bold sm:font-normal mb-6 tracking-tight">
               Product
@@ -67,7 +62,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Resources Column */}
           <div>
             <h3 className="font-'Inter' text-black text-[12px] sm:text-[25px] font-bold sm:font-normal mb-6 tracking-tight">
               Resources
@@ -99,8 +93,6 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-
-          {/* Contact Us Column */}
           <div>
             <h3 className="font-'Inter' text-black text-[12px] sm:text-[25px] font-bold sm:font-normal mb-6 tracking-tight">
               Contact Us

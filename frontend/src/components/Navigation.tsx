@@ -23,7 +23,6 @@ const SlideTabs = () => {
     opacity: 0,
   });
 
-  // Smooth scroll function
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -47,7 +46,6 @@ const SlideTabs = () => {
       <Tab setPosition={setPosition} onClick={() => scrollToSection("section")}>
         Home
       </Tab>
-      {/* Features - Hidden on mobile, visible on md+ */}
       <Tab
         setPosition={setPosition}
         onClick={() => scrollToSection("hero")}
@@ -61,7 +59,6 @@ const SlideTabs = () => {
       <Tab setPosition={setPosition} onClick={() => scrollToSection("pricing")}>
         Pricing
       </Tab>
-      {/* Connect With Us - Hidden on mobile, visible on md+ */}
       <Tab
         setPosition={setPosition}
         onClick={() => scrollToSection("footer")}
@@ -104,7 +101,6 @@ const Tab = ({
       }}
       onClick={onClick}
       className={`relative z-10 block cursor-pointer py-1.5 text-xs uppercase text-black hover:text-[#31484D] mix-blend-difference px-2 md:px-4 md:py-3 md:text-[12px] lg:text-base ${className}`}
-      // className={`relative z-10 block cursor-pointer py-1 md:py-1.5 lg:py-1.5 text-[10px] md:text-xs lg:text-xs uppercase text-black hover:text-[#31484D] mix-blend-difference px-2 md:px-3 lg:px-4 md:py-3 lg:text-base ${className}`}
     >
       {children}
     </li>

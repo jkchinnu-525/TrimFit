@@ -2,7 +2,6 @@
 import Lenis from "lenis";
 import { useEffect } from "react";
 
-// Use requestAnimationFrame to continuously update the scroll
 const ScrollEffect: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {

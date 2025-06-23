@@ -1,9 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
+import { verifySession } from "@/lib/session";
 
-export default function Section() {
+export default async function Section() {
+  const { isAuth } = await verifySession();
   return (
     <div id="section" className="pt-28 md:pt-32 lg:pt-64 relative">
-      {/* Elliptical gradient background under text */}
       <div className="absolute pt-36 sm:pr-60 top-1/2 -left-[25%] sm:left-[0%] -translate-y-1/2 w-[500px] h-[400px] sm:w-[700px] sm:h-[480px] md:w-[980px] md:h-[600px] xl:w-[1200px] xl:h-[700px] pointer-events-none">
         <div
           className="w-full h-full rounded-full opacity-60"
@@ -43,14 +45,24 @@ export default function Section() {
             <br className="hidden md:block" /> solution to the employer&apos;s
             needs.
           </p>
-          <div className="flex sm:flex-row gap-2 sm:gap-4 pr-6 pl-0 sm:pl-2 md:pl-0 md:gap-4 mt-6 md:mt-7 lg:mt-8 items-center justify-start">
-            <div className="bg-transparent h-[40px] sm:h-[44px] w-fit rounded-2xl backdrop-blur-xs cursor-pointer hover:bg-gradient-to-t hover:from-[#4FB3B0]/45 hover:via-[#4FB3B0]/10 hover:to-transparent inline-flex items-center justify-center px-6 shadow-[0px_1.1877729892730713px_4.751091957092285px_0px_rgba(0,0,0,0.25),inset_-0.2969432473182678px_-2.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,0.8),inset_0.2969432473182678px_0.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,1)] transition-all duration-300">
-              <button className="text-[12px] sm:text-[14px] text-[#1b788a] font-regular cursor-pointer font-'Inter' leading-[1.5] flex items-center gap-2">
-                Login
-              </button>
+          {!isAuth && (
+            <div className="flex sm:flex-row gap-2 sm:gap-4 pr-6 pl-0 sm:pl-2 md:pl-0 md:gap-4 mt-6 md:mt-7 lg:mt-8 items-center justify-start">
+              <Link
+                href="/signin"
+                className="bg-transparent h-[40px] sm:h-[44px] w-fit rounded-2xl backdrop-blur-xs cursor-pointer hover:bg-gradient-to-t hover:from-[#4FB3B0]/45 hover:via-[#4FB3B0]/10 hover:to-transparent inline-flex items-center justify-center px-6 shadow-[0px_1.1877729892730713px_4.751091957092285px_0px_rgba(0,0,0,0.25),inset_-0.2969432473182678px_-2.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,0.8),inset_0.2969432473182678px_0.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,1)] transition-all duration-300"
+              >
+                <span className="text-[12px] sm:text-[14px] text-[#1b788a] font-regular cursor-pointer font-'Inter' leading-[1.5] flex items-center gap-2">
+                  Login
+                </span>
+              </Link>
             </div>
-            <div className="bg-transparent h-[40px] sm:h-[44px] w-fit rounded-2xl backdrop-blur-xs cursor-pointer hover:bg-gradient-to-t hover:from-[#4FB3B0]/45 hover:via-[#4FB3B0]/10 hover:to-transparent inline-flex items-center justify-center px-6 shadow-[0px_1.1877729892730713px_4.751091957092285px_0px_rgba(0,0,0,0.25),inset_-0.2969432473182678px_-2.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,0.8),inset_0.2969432473182678px_0.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,1)] transition-all duration-300">
-              <button className="text-[12px] sm:text-[14px] text-[#1b788a] font-medium cursor-pointer font-'Inter' leading-[1.5] flex items-center sm:gap-2">
+          )}
+          <div className="flex sm:flex-row gap-2 sm:gap-4 pr-6 pl-0 sm:pl-2 md:pl-0 md:gap-4 mt-6 md:mt-7 lg:mt-8 items-center justify-start">
+            <Link
+              href="/signup"
+              className="bg-transparent h-[40px] sm:h-[44px] w-fit rounded-2xl backdrop-blur-xs cursor-pointer hover:bg-gradient-to-t hover:from-[#4FB3B0]/45 hover:via-[#4FB3B0]/10 hover:to-transparent inline-flex items-center justify-center px-6 shadow-[0px_1.1877729892730713px_4.751091957092285px_0px_rgba(0,0,0,0.25),inset_-0.2969432473182678px_-2.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,0.8),inset_0.2969432473182678px_0.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,1)] transition-all duration-300"
+            >
+              <span className="text-[12px] sm:text-[14px] text-[#1b788a] font-medium cursor-pointer font-'Inter' leading-[1.5] flex items-center sm:gap-2">
                 Try Now
                 <div className="pt-0.5">
                   <svg
@@ -69,11 +81,10 @@ export default function Section() {
                     />
                   </svg>
                 </div>
-              </button>
-            </div>
+              </span>
+            </Link>
           </div>
         </div>
-        {/* Image section - responsive positioning */}
         <div className="relative mt-4 sm:mt-8 md:mt-12 md:right-2 md:absolute md:top-[35%] xl:top-[30%] md:-translate-y-1/2 z-10 px-0 sm:px-2 md:px-0">
           <div className="flex justify-center lg:justify-end">
             <Image

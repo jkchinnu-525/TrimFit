@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+    id String @id @default(uuid())
+    firstName String?
+    lastName String?
+    email String @unique
+    password String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    resumes Resume[]
+    chatHistory ChatSession[]
+}
+
+model Resume {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  originalUrl String
+  versions    ResumeVersion[]
+  job         JobDescription? @relation(fields: [jobId], references: [id])
+  jobId       String?
+  chatSession ChatSession[]
+}
+
+model ResumeVersion {
+  id          String   @id @default(uuid())
+  resumeId    String
+  resume      Resume   @relation(fields: [resumeId], references: [id])
+  content     Json
+  createdAt   DateTime @default(now())
+  changes     Json
+}
+
+model JobDescription {
+  id          String   @id @default(uuid())
+  rawText     String
+  parsedData  Json
+  resumes     Resume[]
+}
+
+model ChatSession {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  resumeId    String
+  resume      Resume   @relation(fields: [resumeId], references: [id])
+  messages    Json
+}
