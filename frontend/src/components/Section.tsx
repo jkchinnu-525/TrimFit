@@ -25,7 +25,7 @@ export default async function Section() {
               </div>
               <div className="top-1/2 left-1/2 absolute flex justify-center items-center bg-[#4FB3B0]/80 rounded-full w-1.5 h-1.5 -translate-x-1/2 -translate-y-1/2"></div>
             </div>
-            <p className="text-[8px] sm:text-xs font-medium font-'Inter' pr-2 text-white">
+            <p className="text-[8px] sm:text-xs font-medium font-Inter pr-2 text-white">
               Built for your job searching
             </p>
           </div>
@@ -38,7 +38,7 @@ export default async function Section() {
               className="pt-4 w-[170px] sm:w-[280px] md:w-[350px] lg:w-[420px] h-auto"
             />
           </div>
-          <p className="text-black font-semibold font-'Inter' mr-12 pr-8 text-[10px] sm:text-[12px] md:text-[15px] lg:text-[16px] leading-[14px] sm:leading-[20px] md:leading-[22px] lg:leading-[24px] mt-8 md:mt-7 lg:mt-8 ml-1 sm:pl-1 sm:px-4 sm:mr-0 md:px-0 text-left">
+          <p className="text-black font-semibold font-Inter mr-12 pr-8 text-[10px] sm:text-[12px] md:text-[15px] lg:text-[16px] leading-[14px] sm:leading-[20px] md:leading-[22px] lg:leading-[24px] mt-8 md:mt-7 lg:mt-8 ml-1 sm:pl-1 sm:px-4 sm:mr-0 md:px-0 text-left">
             Tailoring your resume isn&apos;t just about{" "}
             <br className="hidden sm:block" />
             keywords—it&apos;s about positioning yourself as
@@ -51,7 +51,7 @@ export default async function Section() {
                 href="/signin"
                 className="bg-transparent h-[40px] sm:h-[44px] w-fit rounded-2xl backdrop-blur-xs cursor-pointer hover:bg-gradient-to-t hover:from-[#4FB3B0]/45 hover:via-[#4FB3B0]/10 hover:to-transparent inline-flex items-center justify-center px-6 shadow-[0px_1.1877729892730713px_4.751091957092285px_0px_rgba(0,0,0,0.25),inset_-0.2969432473182678px_-2.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,0.8),inset_0.2969432473182678px_0.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,1)] transition-all duration-300"
               >
-                <span className="text-[12px] sm:text-[14px] text-[#1b788a] font-regular cursor-pointer font-'Inter' leading-[1.5] flex items-center gap-2">
+                <span className="text-[12px] sm:text-[14px] text-[#1b788a] font-regular cursor-pointer font-Inter leading-[1.5] flex items-center gap-2">
                   Login
                 </span>
               </Link>
@@ -62,7 +62,7 @@ export default async function Section() {
               href="/signup"
               className="bg-transparent h-[40px] sm:h-[44px] w-fit rounded-2xl backdrop-blur-xs cursor-pointer hover:bg-gradient-to-t hover:from-[#4FB3B0]/45 hover:via-[#4FB3B0]/10 hover:to-transparent inline-flex items-center justify-center px-6 shadow-[0px_1.1877729892730713px_4.751091957092285px_0px_rgba(0,0,0,0.25),inset_-0.2969432473182678px_-2.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,0.8),inset_0.2969432473182678px_0.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,1)] transition-all duration-300"
             >
-              <span className="text-[12px] sm:text-[14px] text-[#1b788a] font-medium cursor-pointer font-'Inter' leading-[1.5] flex items-center sm:gap-2">
+              <span className="text-[12px] sm:text-[14px] text-[#1b788a] font-medium cursor-pointer font-Inter leading-[1.5] flex items-center sm:gap-2">
                 Try Now
                 <div className="pt-0.5">
                   <svg

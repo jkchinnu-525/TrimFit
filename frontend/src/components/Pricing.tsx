@@ -145,7 +145,7 @@ const PricingCard = ({
           {features.map((feature, index) => (
             <div key={index} className="flex items-center gap-3">
               <CheckIcon />
-              <span className="text-black font-'Inter' text-[18px] font-regular">
+              <span className="text-black font-Inter text-[18px] font-regular">
                 {feature}
               </span>
             </div>
@@ -186,7 +186,7 @@ export default function Pricing() {
             <br className="hidden sm:block" />
             Your Perfect Plan
           </h2>
-          <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black font-medium font-'Inter' max-w-4xl lg:max-w-5xl px-4 md:px-8 lg:px-14 xl:px-0 mx-auto leading-relaxed">
+          <p className="text-[14px] md:text-[16px] lg:text-[18px] text-black font-medium font-Inter max-w-4xl lg:max-w-5xl px-4 md:px-8 lg:px-14 xl:px-0 mx-auto leading-relaxed">
             All plans include core AI tailoring, ATS optimization, and instant
             formatting.
             <br className="hidden sm:block" />

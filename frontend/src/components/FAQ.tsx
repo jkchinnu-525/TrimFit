@@ -49,11 +49,11 @@ export default function FAQ() {
           </h2>
 
           <div className="space-y-6">
-            <h1 className="text-[28px] text-center lg:text-left lg:text-5xl font-semibold font-'Inter' text-gray-900 leading-tighter">
+            <h1 className="text-[28px] text-center lg:text-left lg:text-5xl font-semibold font-Inter text-gray-900 leading-tighter">
               Frequently Asked Questions
             </h1>
 
-            <p className="text-gray-900 lg:text-left text-center px-5 ml-6 md:ml-0 md:px-0 text-lg mr-6 text-wrap: balance font-regular font-'Inter' leading-relaxed">
+            <p className="text-gray-900 lg:text-left text-center px-5 ml-6 md:ml-0 md:px-0 text-lg mr-6 text-wrap: balance font-regular font-Inter leading-relaxed">
               For any unanswered questions, reach out to our support team.
               We&apos;ll respond as soon as possible to assist you.
             </p>

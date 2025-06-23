@@ -48,7 +48,7 @@ export default function SignIn() {
                 </div>
                 <div className="top-1/2 left-1/2 absolute flex justify-center items-center bg-[#4FB3B0]/80 rounded-full w-1.5 h-1.5 -translate-x-1/2 -translate-y-1/2"></div>
               </div>
-              <p className="text-xs font-medium font-'Inter' pr-2 text-white">
+              <p className="text-xs font-medium font-Inter pr-2 text-white">
                 Welcome back to TrimFit
               </p>
             </div>
@@ -56,49 +56,49 @@ export default function SignIn() {
 
           <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-[0px_0px_30px_8px_rgba(120,177,175,0.15)] border border-[#3F8F8D]/20 p-8">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-black font-'Inter' mb-2">
+              <h1 className="text-3xl font-bold text-black font-Inter mb-2">
                 Sign In
               </h1>
-              <p className="text-[#666] font-'Inter' text-sm">
+              <p className="text-[#666] font-Inter text-sm">
                 Continue your job search journey
               </p>
             </div>
 
             <form action={formAction} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-black font-'Inter' mb-2">
+                <label className="block text-sm font-medium text-black font-Inter mb-2">
                   Email
                 </label>
                 <input
                   type="email"
                   name="email"
                   required
-                  className="w-full px-4 py-3 rounded-2xl border border-[#3F8F8D]/30 bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#4FB3B0] focus:border-transparent transition-all duration-300 font-'Inter'"
+                  className="w-full px-4 py-3 rounded-2xl border border-[#3F8F8D]/30 bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#4FB3B0] focus:border-transparent transition-all duration-300 font-Inter"
                   placeholder="Enter your email"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-black font-'Inter' mb-2">
+                <label className="block text-sm font-medium text-black font-Inter mb-2">
                   Password
                 </label>
                 <input
                   type="password"
                   name="password"
                   required
-                  className="w-full px-4 py-3 rounded-2xl border border-[#3F8F8D]/30 bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#4FB3B0] focus:border-transparent transition-all duration-300 font-'Inter'"
+                  className="w-full px-4 py-3 rounded-2xl border border-[#3F8F8D]/30 bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#4FB3B0] focus:border-transparent transition-all duration-300 font-Inter"
                   placeholder="Enter your password"
                 />
               </div>
 
               {state?.error ? (
                 <div className="flex flex-row justify-between items-center">
-                  <div className="text-left text-red-500 text-sm font-medium font-'Inter' p-2">
+                  <div className="text-left text-red-500 text-sm font-medium font-Inter p-2">
                     {state.error}
                   </div>
                   <Link
                     href="/forgot-password"
-                    className="text-sm flex justify-end text-[#1b788a] hover:text-[#3F8F8D] font-medium font-'Inter' transition-colors duration-200"
+                    className="text-sm flex justify-end text-[#1b788a] hover:text-[#3F8F8D] font-medium font-Inter transition-colors duration-200"
                   >
                     Forgot your password?
                   </Link>
@@ -107,7 +107,7 @@ export default function SignIn() {
                 <div className="text-right">
                   <Link
                     href="/forgot-password"
-                    className="text-sm flex justify-end text-[#1b788a] hover:text-[#3F8F8D] font-medium font-'Inter' transition-colors duration-200"
+                    className="text-sm flex justify-end text-[#1b788a] hover:text-[#3F8F8D] font-medium font-Inter transition-colors duration-200"
                   >
                     Forgot your password?
                   </Link>
@@ -117,7 +117,7 @@ export default function SignIn() {
               <button
                 type="submit"
                 disabled={isPending}
-                className="w-full bg-gradient-to-r cursor-pointer from-[#3F8F8D] to-[#4FB3B0] text-white font-medium font-'Inter' py-3 px-6 rounded-2xl hover:from-[#368882] hover:to-[#46a8a5] focus:outline-none focus:ring-2 focus:ring-[#4FB3B0] focus:ring-offset-2 transition-all duration-300 shadow-[0px_4px_15px_rgba(63,143,141,0.3)] disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r cursor-pointer from-[#3F8F8D] to-[#4FB3B0] text-white font-medium font-Inter py-3 px-6 rounded-2xl hover:from-[#368882] hover:to-[#46a8a5] focus:outline-none focus:ring-2 focus:ring-[#4FB3B0] focus:ring-offset-2 transition-all duration-300 shadow-[0px_4px_15px_rgba(63,143,141,0.3)] disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isPending ? (
                   <div className="flex items-center justify-center gap-2">
@@ -135,14 +135,14 @@ export default function SignIn() {
                 <div className="w-full border-t border-[#3F8F8D]/20"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white/80 text-[#666] font-'Inter'">
+                <span className="px-4 bg-white/80 text-[#666] font-Inter">
                   or continue with
                 </span>
               </div>
             </div>
 
             <div className="space-y-3">
-              <button className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-2xl border border-[#3F8F8D]/30 bg-white/50 backdrop-blur-sm hover:bg-white/70 transition-all duration-300 font-'Inter'">
+              <button className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-2xl border border-[#3F8F8D]/30 bg-white/50 backdrop-blur-sm hover:bg-white/70 transition-all duration-300 font-Inter">
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path
                     fill="#4285f4"
@@ -167,7 +167,7 @@ export default function SignIn() {
               </button>
             </div>
 
-            <p className="text-center mt-8 text-sm text-[#666] font-'Inter'">
+            <p className="text-center mt-8 text-sm text-[#666] font-Inter">
               Don&apos;t have an account?{" "}
               <Link
                 href="/signup"
