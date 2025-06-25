@@ -1,10 +1,12 @@
 from pydantic import BaseModel
-from typing import Optional, List, Dict
+from typing import Optional, List, Any, Dict
+
 
 class ResumeSection(BaseModel):
     title: str
     content: str
     items: List[str] = []
+
 
 class Experience(BaseModel):
     job_title: str
@@ -17,6 +19,7 @@ class Experience(BaseModel):
     responsibilities: List[str] = []
     achievements: List[str] = []
 
+
 class Project(BaseModel):
     name: str
     description: str = ""
@@ -26,6 +29,7 @@ class Project(BaseModel):
     achievements: List[str] = []
     links: Dict[str, str] = {}
 
+
 class ParsedResume(BaseModel):
     sections: Dict[str, ResumeSection]
     skills: Dict[str, List[str]]
@@ -34,6 +38,7 @@ class ParsedResume(BaseModel):
     professional_summary: str = ""
     raw_text: str
     word_count: int
+
 
 class ProcessedResult(BaseModel):
     success: bool
