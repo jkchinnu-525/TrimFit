@@ -39,8 +39,10 @@ class DocumentParser:
                 text = self.extract_docx_text(file_path)
             else:
                 raise ValueError(f"Unsupported file type: {file_type}")
-
-            return self.parse_text(text)
+            if text.strip():
+                return self.parse_text(text)
+            else:
+                return {"raw_text": text}
 
         except Exception as e:
             logger.error(f"Error parsing document::{str(e)}")

@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from .config import settings
 from fastapi.middleware.cors import CORSMiddleware
 from .routers import document_upload
+from .routers import resume_tailor
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -19,7 +20,7 @@ app.add_middleware(
 )
 
 app.include_router(document_upload.router)
-
+app.include_router(resume_tailor.router)
 
 @app.get('/')
 async def root():

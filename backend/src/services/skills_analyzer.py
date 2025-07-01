@@ -81,7 +81,7 @@ class VectorSkillsAnalyzer(BaseAnalyzer):
 
         self.initialize_skill_database()
 
-    # def _compute_skill_embeddings(self):
+    def _compute_skill_embeddings(self):
         self.embeddings_cache["skills"] = self.sentence_model.encode(
             self.skills_headers)
 

@@ -1,5 +1,67 @@
 from pydantic import BaseModel
-from typing import Optional, List, Any, Dict
+from typing import Optional, List
+
+
+class PersonalInfo(BaseModel):
+    name: Optional[str] = ""
+    email: Optional[str] = ""
+    phone: Optional[str] = ""
+    address: Optional[str] = ""
+    linkedin: Optional[str] = ""
+    github: Optional[str] = ""
+
+
+class WorkExperience(BaseModel):
+    job_title: Optional[str] = ""
+    company: Optional[str] = ""
+    duration: Optional[str] = ""
+    location: Optional[str] = ""
+    responsibilities: List[str] = []
+    technologies: List[str] = []
+
+
+class Education(BaseModel):
+    degree: Optional[str] = ""
+    institution: Optional[str] = ""
+    field: Optional[str] = ""
+    year: Optional[str] = ""
+    gpa: Optional[str] = ""
+
+
+class Skills(BaseModel):
+    programming_languages: List[str] = []
+    web_technologies: List[str] = []
+    devops_tools: List[str] = []
+    databases: List[str] = []
+    development_tools: List[str] = []
+    version_control_tools: List[str] = []
+
+
+class Project(BaseModel):
+    name: Optional[str] = ""
+    description: Optional[str] = ""
+    technologies: List[str] = []
+    details: List[str] = []
+
+
+class ExtractedResumeData(BaseModel):
+    personal_info: Optional[PersonalInfo] = None
+    professional_summary: Optional[str] = ""
+    experience: List[WorkExperience] = []
+    education: List[Education] = []
+    skills: Optional[Skills] = None
+    projects: List[Project] = []
+    certifications: List[str] = []
+    achievements: List[str] = []
+    raw_text: str
+    error: Optional[str] = None
+
+
+class ProcessedResult(BaseModel):
+    success: bool
+    message: str
+    processing_time: float = 0.0
+    data: Optional[ExtractedResumeData] = None
 
 
 class ResumeSection(BaseModel):
@@ -20,28 +82,5 @@ class Experience(BaseModel):
     achievements: List[str] = []
 
 
-class Project(BaseModel):
-    name: str
-    description: str = ""
-    technologies: List[str] = []
-    duration: str = ""
-    role: str = ""
-    achievements: List[str] = []
-    links: Dict[str, str] = {}
-
-
 class ParsedResume(BaseModel):
-    sections: Dict[str, ResumeSection]
-    skills: Dict[str, List[str]]
-    experience: List[Experience] = []
-    projects: List[Project] = []
-    professional_summary: str = ""
     raw_text: str
-    word_count: int
-
-
-class ProcessedResult(BaseModel):
-    success: bool
-    message: str
-    processing_time: float = 0.0
-    data: Optional[ParsedResume] = None
