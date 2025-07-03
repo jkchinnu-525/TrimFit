@@ -1,11 +1,17 @@
 from fastapi import APIRouter, File, UploadFile, Form, HTTPException
-import os, time, logging, tempfile
+import os
+import time
+import logging
+import tempfile
 from typing import Dict, Any
+from fastapi.responses import FileResponse
 from pathlib import Path
 from ..services.document_parser import DocumentParser
 from ..services.ai_content_extractor import ai_extractor
 from ..services.ai_resume_tailor import resume_tailor as ai_resume_tailor_service
 from ..config import settings
+from ..services.doc_generator import document_generator
+import shutil
 
 logger = logging.getLogger(__name__)
 router = APIRouter(
@@ -13,106 +19,11 @@ router = APIRouter(
 
 document_parser = DocumentParser()
 
-@router.post("/tailor-resume")
-async def tailor_resume(
-    job_description: str = Form(...),
-    resume_file: UploadFile = File(...)
-):
-    start_time = time.time()
-    processing_steps = []
-
-    try:
-        file_extension = Path(resume_file.filename).suffix.lower()
-        if file_extension not in settings.ALLOWED_EXTENSIONS:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Unsupported file type. Allowed: {settings.ALLOWED_EXTENSIONS}"
-            )
-
-        content = await resume_file.read()
-        processing_steps.append("File uploaded and validated")
-
-        with tempfile.NamedTemporaryFile(delete=False, suffix=file_extension) as tmp_file:
-            tmp_file.write(content)
-            tmp_file_path = tmp_file.name
-
-        try:
-            file_type = file_extension.lstrip('.')
-            parsed_data = document_parser.parse_document(
-                tmp_file_path, file_type)
-            processing_steps.append("Raw text extracted from document")
-
-            logger.info("Starting AI extraction of resume sections...")
-            extracted_resume_data = ai_extractor.extract_resume_sections(
-                parsed_data['raw_text']
-            )
-            processing_steps.append("Resume sections extracted using AI")
-
-            logger.info(
-                f"Extracted sections: {list(extracted_resume_data.keys())}")
-
-            logger.info("Starting AI tailoring process...")
-            tailored_result = await ai_resume_tailor_service.tailor_complete_resume(
-                extracted_resume_data,
-                job_description
-            )
-            processing_steps.append("Resume tailored using AI")
-
-            processing_time = time.time() - start_time
-
-            return {
-                "success": True,
-                "message": "Resume processed and tailored successfully",
-                "processing_time": processing_time,
-                "processing_steps": processing_steps,
-                "data": {
-                    "extracted_resume": {
-                        "personal_info": extracted_resume_data.get("personal_info", {}),
-                        "professional_summary": extracted_resume_data.get("professional_summary", ""),
-                        "experience": extracted_resume_data.get("experience", []),
-                        "education": extracted_resume_data.get("education", []),
-                        "skills": extracted_resume_data.get("skills", {}),
-                        "projects": extracted_resume_data.get("projects", []),
-                        "certifications": extracted_resume_data.get("certifications", []),
-                        "achievements": extracted_resume_data.get("achievements", [])
-                    },
-                    "tailored_resume": tailored_result["tailored_resume"],
-                    "job_analysis": tailored_result["job_analysis"],
-                    "changes_made": tailored_result["changes_made"],
-                    "match_score": tailored_result["match_score"],
-                    "score_improvement": tailored_result.get("score_improvement", 0),
-                    "suggestions": tailored_result["suggestions"],
-                    "file_info": {
-                        "filename": resume_file.filename,
-                        "file_type": file_type,
-                        "file_size": len(content)
-                    }
-                }
-            }
-
-        finally:
-            if os.path.exists(tmp_file_path):
-                os.unlink(tmp_file_path)
-
-    except Exception as e:
-        logger.error(f"Resume tailoring pipeline failed: {str(e)}")
-        processing_time = time.time() - start_time
-
-        return {
-            "success": False,
-            "message": f"Error in resume tailoring pipeline: {str(e)}",
-            "processing_time": processing_time,
-            "processing_steps": processing_steps,
-            "error_details": str(e),
-            "data": None
-        }
-
 @router.post("/quick-tailor")
 async def quick_tailor_existing_resume(
     resume_data: Dict[str, Any],
     job_description: str
 ):
-    """Tailor an already parsed resume (for faster iterations)."""
     try:
         tailored_result = await ai_resume_tailor_service.tailor_complete_resume(
             resume_data,
@@ -128,15 +39,124 @@ async def quick_tailor_existing_resume(
         logger.error(f"Quick tailoring failed: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.post("/tailor-resume-json-and-docx")
+async def tailor_resume_with_both_outputs(
+    job_description: str = Form(...),
+    resume_file: UploadFile = File(...)
+):
+    start_time = time.time()
+    processing_steps = []
+    temp_files = []
 
-@router.get("/health")
-async def tailor_health():
-    return {
-        "status": "healthy",
-        "service": "Resume Tailoring",
-        "endpoints": [
-            "/analyze-job",
-            "/tailor-resume",
-            "/quick-tailor"
-        ]
-    }
+    try:
+        file_extension = Path(resume_file.filename).suffix.lower()
+        if file_extension not in ['.docx']:
+            raise HTTPException(
+                status_code=400,
+                detail="Only DOCX files are supported for formatted output"
+            )
+
+        content = await resume_file.read()
+        with tempfile.NamedTemporaryFile(delete=False, suffix=file_extension) as tmp_file:
+            tmp_file.write(content)
+            original_file_path = tmp_file.name
+            temp_files.append(original_file_path)
+
+        parsed_data = document_parser.parse_document(
+            original_file_path, 'docx')
+        extracted_resume_data = ai_extractor.extract_resume_sections(
+            parsed_data['raw_text'])
+        tailored_result = await ai_resume_tailor_service.tailor_complete_resume(
+            extracted_resume_data,
+            job_description
+        )
+
+        tailored_sections = tailored_result["tailored_resume"]
+        logger.info(
+            f"Tailored sections received: {list(tailored_sections.keys())}")
+
+        sections_safe_to_modify = {
+            'professional_summary', 'skills', 'personal_info'}
+
+        safe_tailored_data = {}
+        excluded_sections = []
+
+        for k, v in tailored_sections.items():
+            if k in sections_safe_to_modify:
+                safe_tailored_data[k] = v
+                logger.info(f"✓ Including safe section: {k}")
+            else:
+                excluded_sections.append(k)
+                logger.info(
+                    f"✗ EXCLUDING preserved section: {k} (will be preserved from original)")
+
+        logger.info(
+            f"Final safe tailored data keys: {list(safe_tailored_data.keys())}")
+        logger.info(
+            f"Excluded sections (preserved from original): {excluded_sections}")
+
+        output_file_path = document_generator.generate_tailored_resume(
+            original_file_path,
+            extracted_resume_data,
+            safe_tailored_data
+        )
+
+        file_id = f"{int(time.time())}_{hash(resume_file.filename)}"
+        stored_path = Path(settings.UPLOAD_DIR) / f"tailored_{file_id}.docx"
+        shutil.copy2(output_file_path, stored_path)
+
+        os.unlink(output_file_path)
+
+        processing_time = time.time() - start_time
+
+        return {
+            "success": True,
+            "message": "Resume processed and tailored successfully",
+            "processing_time": processing_time,
+            "data": {
+                "extracted_resume": extracted_resume_data,
+                "tailored_resume": tailored_result["tailored_resume"],
+                "job_analysis": tailored_result["job_analysis"],
+                "changes_made": tailored_result["changes_made"],
+                "match_score": tailored_result["match_score"],
+                "text_suggestions": tailored_result.get("text_suggestions", {}),
+                "download_info": {
+                    "file_id": file_id,
+                    "download_url": f"{settings.API_V1_STR}/tailor/download/{file_id}",
+                    "expires_in_seconds": 3600  # 1 hour
+                }
+            }
+        }
+
+    except Exception as e:
+        logger.error(f"Resume tailoring failed: {str(e)}")
+        for temp_file in temp_files:
+            if os.path.exists(temp_file):
+                try:
+                    os.unlink(temp_file)
+                except:
+                    pass
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:    
+        if os.path.exists(original_file_path):
+            try:
+                os.unlink(original_file_path)
+            except:
+                pass
+
+
+@router.get("/download/{file_id}")
+async def download_tailored_resume(file_id: str):
+
+    file_path = Path(settings.UPLOAD_DIR) / f"tailored_{file_id}.docx"
+
+    if not file_path.exists():
+        raise HTTPException(
+            status_code=404, detail="File not found or expired")
+
+    return FileResponse(
+        path=str(file_path),
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        filename=f"tailored_resume_{file_id}.docx"
+    )

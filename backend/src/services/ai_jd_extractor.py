@@ -1,7 +1,10 @@
 from langchain_groq import ChatGroq
-from langchain.schema import SystemMessage, HumanMessage
+from langchain_core.messages import SystemMessage, HumanMessage
 from ..config import settings
+from langchain_openai import ChatOpenAI
 from typing import Dict, Any
+from langchain_anthropic import ChatAnthropic
+from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 import json
 import logging
 
@@ -10,11 +13,51 @@ logger = logging.getLogger(__name__)
 
 class JDAnalyzer:
     def __init__(self):
-        self.client = ChatGroq(
+        if not settings.HUGGINGFACE_API_KEY:
+            raise ValueError(
+                "HUGGINGFACE_API_KEY is not set in the environment variables")
+
+        self.client = ChatAnthropic(
+            api_key=settings.ANTHROPIC_API_KEY,
+            model=settings.ANTHROPIC_MODEL,
+        )
+        self.client_groq = ChatGroq(
             api_key=settings.GROQ_API_KEY,
             model=settings.GROQ_MODEL,
+            max_tokens=settings.GROQ_MAX_TOKENS,
             temperature=0.1
         )
+
+        self.client_openrouter = ChatOpenAI(
+            api_key=settings.OPENROUTER_API_KEY,
+            base_url=settings.OPENROUTER_BASE_URL,
+            model=settings.OPENROUTER_MODEL,
+            max_tokens=settings.OPENROUTER_MAX_TOKENS,
+            temperature=settings.OPENROUTER_TEMPERATURE,
+            extra_headers={
+                "HTTP-Referer": "https://trimfit-resume-tailor.com",
+                "X-Title": "TrimFit Resume Tailor",
+            }
+        )
+
+        self.client_huggingface = self._initialize_huggingface()
+
+    def _initialize_huggingface(self):
+        try:
+            logger.info(
+                f"Initializing Hugging Face API client: {settings.HUGGINGFACE_MODEL}")
+
+            llm = HuggingFaceEndpoint(
+                repo_id=settings.HUGGINGFACE_MODEL,
+                huggingfacehub_api_token=settings.HUGGINGFACE_API_KEY,
+                max_new_tokens=settings.HUGGINGFACE_MAX_TOKENS,
+                temperature=settings.HUGGINGFACE_TEMPERATURE
+            )            
+            return ChatHuggingFace(llm=llm)
+        except Exception as e:
+            logger.error(f"Failed to initialize Hugging Face client: {str(e)}")
+            logger.warning("Falling back to OpenRouter client")
+            return self.client_openrouter
 
     async def extract_job_requirements(self, jd_text: str) -> Dict[str, Any]:
         prompt = """You are an expert job description analyzer. Extract the following information from the job description:
@@ -40,7 +83,7 @@ class JDAnalyzer:
                 SystemMessage(content=prompt),
                 HumanMessage(content=user_prompt)
             ]
-            response = self.client.invoke(messages)
+            response = self.client_huggingface.invoke(messages)
             content = response.content.strip()
             if content.startswith("```json"):
                 content = content[7:-3]
