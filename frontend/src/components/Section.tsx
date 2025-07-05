@@ -59,7 +59,7 @@ export default async function Section() {
           )}
           <div className="flex sm:flex-row gap-2 sm:gap-4 pr-6 pl-0 sm:pl-2 md:pl-0 md:gap-4 mt-6 md:mt-7 lg:mt-8 items-center justify-start">
             <Link
-              href="/signup"
+              href="/tailor"
               className="bg-transparent h-[40px] sm:h-[44px] w-fit rounded-2xl backdrop-blur-xs cursor-pointer hover:bg-gradient-to-t hover:from-[#4FB3B0]/45 hover:via-[#4FB3B0]/10 hover:to-transparent inline-flex items-center justify-center px-6 shadow-[0px_1.1877729892730713px_4.751091957092285px_0px_rgba(0,0,0,0.25),inset_-0.2969432473182678px_-2.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,0.8),inset_0.2969432473182678px_0.5938864946365356px_0.5938864946365356px_0px_rgba(63,143,141,1)] transition-all duration-300"
             >
               <span className="text-[12px] sm:text-[14px] text-[#1b788a] font-medium cursor-pointer font-Inter leading-[1.5] flex items-center sm:gap-2">

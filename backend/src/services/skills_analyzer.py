@@ -4,7 +4,6 @@ from sentence_transformers import SentenceTransformer
 import uuid
 import re
 from sklearn.metrics.pairwise import cosine_similarity
-
 from .work_experience_analyzer import WorkExperienceAnalyzer
 from .summary_analyzer import SummaryAnalyzer
 from .project_analyzer import ProjectAnalyzer
@@ -14,7 +13,14 @@ from .base_analyzer import BaseAnalyzer
 class VectorSkillsAnalyzer(BaseAnalyzer):
     def __init__(self, sentence_model: SentenceTransformer):
         super().__init__(sentence_model)
-        self.client = chromadb.PersistentClient(path="chroma_db")
+        self.client = chromadb.PersistentClient(
+            path="chroma_db",
+            settings=chromadb.config.Settings(
+                anonymized_telemetry=False,
+                allow_reset=True,
+                is_persistent=True
+            )
+        )
         self.collection = self.client.get_or_create_collection(
             name="Collection",
             metadata={"hnsw:space": "cosine"}
@@ -472,3 +478,10 @@ class VectorSkillsAnalyzer(BaseAnalyzer):
             "professional_summary": professional_summary,
             "raw_text": text
         }
+
+    def __del__(self):
+        try:
+            if hasattr(self, 'client'):
+                self.client.close()
+        except:
+            pass

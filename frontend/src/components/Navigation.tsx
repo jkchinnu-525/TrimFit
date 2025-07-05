@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 interface Position {
   left: number;
@@ -23,16 +24,6 @@ const SlideTabs = () => {
     opacity: 0,
   });
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
   return (
     <ul
       onMouseLeave={() => {
@@ -43,28 +34,20 @@ const SlideTabs = () => {
       }}
       className="relative mx-auto flex w-fit rounded-full p-1"
     >
-      <Tab setPosition={setPosition} onClick={() => scrollToSection("section")}>
-        Home
+      <Tab setPosition={setPosition}>
+        <Link href="/#section">Home</Link>
       </Tab>
-      <Tab
-        setPosition={setPosition}
-        onClick={() => scrollToSection("hero")}
-        className="hidden md:block"
-      >
-        Features
+      <Tab setPosition={setPosition} className="hidden md:block">
+        <Link href="/#hero">Features</Link>
       </Tab>
-      <Tab setPosition={setPosition} onClick={() => scrollToSection("aboutus")}>
-        Our Magic
+      <Tab setPosition={setPosition}>
+        <Link href="/#aboutus">Our Magic</Link>
       </Tab>
-      <Tab setPosition={setPosition} onClick={() => scrollToSection("pricing")}>
-        Pricing
+      <Tab setPosition={setPosition}>
+        <Link href="/#pricing">Pricing</Link>
       </Tab>
-      <Tab
-        setPosition={setPosition}
-        onClick={() => scrollToSection("footer")}
-        className="hidden md:block"
-      >
-        Connect With Us
+      <Tab setPosition={setPosition} className="hidden md:block">
+        <Link href="/#footer">Connect With Us</Link>
       </Tab>
 
       <Cursor position={position} />
@@ -75,12 +58,10 @@ const SlideTabs = () => {
 const Tab = ({
   children,
   setPosition,
-  onClick,
   className = "",
 }: {
   children: React.ReactNode;
   setPosition: (pos: Position) => void;
-  onClick?: () => void;
   className?: string;
 }) => {
   const ref = useRef<HTMLLIElement>(null);
@@ -90,16 +71,13 @@ const Tab = ({
       ref={ref}
       onMouseEnter={() => {
         if (!ref?.current) return;
-
         const { width } = ref.current.getBoundingClientRect();
-
         setPosition({
           left: ref.current.offsetLeft,
           width,
           opacity: 1,
         });
       }}
-      onClick={onClick}
       className={`relative z-10 block cursor-pointer py-1.5 text-xs uppercase text-black hover:text-[#31484D] mix-blend-difference px-2 md:px-4 md:py-3 md:text-[12px] lg:text-base ${className}`}
     >
       {children}

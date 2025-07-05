@@ -13,51 +13,46 @@ logger = logging.getLogger(__name__)
 
 class JDAnalyzer:
     def __init__(self):
-        if not settings.HUGGINGFACE_API_KEY:
-            raise ValueError(
-                "HUGGINGFACE_API_KEY is not set in the environment variables")
 
-        self.client = ChatAnthropic(
-            api_key=settings.ANTHROPIC_API_KEY,
-            model=settings.ANTHROPIC_MODEL,
-        )
-        self.client_groq = ChatGroq(
-            api_key=settings.GROQ_API_KEY,
-            model=settings.GROQ_MODEL,
-            max_tokens=settings.GROQ_MAX_TOKENS,
-            temperature=0.1
-        )
+        # self.client = ChatAnthropic(
+        #     api_key=settings.ANTHROPIC_API_KEY,
+        #     model=settings.ANTHROPIC_MODEL,
+        # )
+        # self.client_groq = ChatGroq(
+        #     api_key=settings.GROQ_API_KEY,
+        #     model=settings.GROQ_MODEL,
+        #     max_tokens=settings.GROQ_MAX_TOKENS,
+        #     temperature=0.1
+        # )
 
-        self.client_openrouter = ChatOpenAI(
-            api_key=settings.OPENROUTER_API_KEY,
-            base_url=settings.OPENROUTER_BASE_URL,
-            model=settings.OPENROUTER_MODEL,
-            max_tokens=settings.OPENROUTER_MAX_TOKENS,
-            temperature=settings.OPENROUTER_TEMPERATURE,
-            extra_headers={
-                "HTTP-Referer": "https://trimfit-resume-tailor.com",
-                "X-Title": "TrimFit Resume Tailor",
-            }
-        )
+        # self.client_openrouter = ChatOpenAI(
+        #     api_key=settings.OPENROUTER_API_KEY,
+        #     base_url=settings.OPENROUTER_BASE_URL,
+        #     model=settings.OPENROUTER_MODEL,
+        #     max_tokens=settings.OPENROUTER_MAX_TOKENS,
+        #     temperature=settings.OPENROUTER_TEMPERATURE,
+        #     model_kwargs={
+        #         "extra_headers": {
+        #             "HTTP-Referer": "https://trimfit-resume-tailor.com",
+        #             "X-Title": "TrimFit Resume Tailor",
+        #         }
+        #     }
+        # )
 
         self.client_huggingface = self._initialize_huggingface()
 
     def _initialize_huggingface(self):
         try:
-            logger.info(
-                f"Initializing Hugging Face API client: {settings.HUGGINGFACE_MODEL}")
-
             llm = HuggingFaceEndpoint(
                 repo_id=settings.HUGGINGFACE_MODEL,
                 huggingfacehub_api_token=settings.HUGGINGFACE_API_KEY,
                 max_new_tokens=settings.HUGGINGFACE_MAX_TOKENS,
                 temperature=settings.HUGGINGFACE_TEMPERATURE
-            )            
+            )
             return ChatHuggingFace(llm=llm)
         except Exception as e:
             logger.error(f"Failed to initialize Hugging Face client: {str(e)}")
-            logger.warning("Falling back to OpenRouter client")
-            return self.client_openrouter
+            raise e
 
     async def extract_job_requirements(self, jd_text: str) -> Dict[str, Any]:
         prompt = """You are an expert job description analyzer. Extract the following information from the job description:
@@ -70,7 +65,19 @@ class JDAnalyzer:
         6. keywords: Important keywords and phrases that should appear in a resume
         7. industry_domain: The industry or domain (e.g., fintech, healthcare, e-commerce)
         
-        Return ONLY a valid JSON object with these fields. If a field is not found, use empty string or empty array.
+        CRITICAL: Return ONLY a valid JSON object with these exact fields. No additional text, no markdown, no explanations.
+        If a field is not found, use empty string or empty array.
+        
+        Example format:
+        {
+            "role": "Software Engineer",
+            "required_skills": ["Python", "JavaScript", "React"],
+            "responsibilities": ["Develop web applications", "Write clean code"],
+            "qualifications": ["Bachelor's degree", "3+ years experience"],
+            "experience_level": "3-5 years",
+            "keywords": ["full-stack", "agile", "REST API"],
+            "industry_domain": "Technology"
+        }
         """
 
         user_prompt = f"""Extract structured information from this job description:

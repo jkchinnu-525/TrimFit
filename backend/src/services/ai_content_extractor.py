@@ -12,70 +12,52 @@ logger = logging.getLogger(__name__)
 
 class AIExtractor:
     def __init__(self):
-        if not settings.GROQ_API_KEY:
-            raise ValueError(
-                "GROQ_API_KEY is not set in the environment variables")
 
-        if not settings.ANTHROPIC_API_KEY:
-            raise ValueError(
-                "ANTHROPIC_API_KEY is not set in the environment variables")
+        # self.client = ChatAnthropic(
+        #     api_key=settings.ANTHROPIC_API_KEY,
+        #     model=settings.ANTHROPIC_MODEL
+        # )
 
-        if not settings.OPENAI_API_KEY:
-            raise ValueError(
-                "OPENAI_API_KEY is not set in the environment variables")
+        # self.client_openai = ChatOpenAI(
+        #     api_key=settings.OPENAI_API_KEY,
+        #     model=settings.OPENAI_MODEL
+        # )
 
-        if not settings.HUGGINGFACE_API_KEY:
-            raise ValueError(
-                "HUGGINGFACE_API_KEY is not set in the environment variables")
+        # self.client_groq = ChatGroq(
+        #     api_key=settings.GROQ_API_KEY,
+        #     model=settings.GROQ_MODEL,
+        #     max_tokens=settings.GROQ_MAX_TOKENS
+        # )
 
-        self.client = ChatAnthropic(
-            api_key=settings.ANTHROPIC_API_KEY,
-            model=settings.ANTHROPIC_MODEL
-        )
-
-        self.client_openai = ChatOpenAI(
-            api_key=settings.OPENAI_API_KEY,
-            model=settings.OPENAI_MODEL
-        )
-
-        self.client_groq = ChatGroq(
-            api_key=settings.GROQ_API_KEY,
-            model=settings.GROQ_MODEL,
-            max_tokens=settings.GROQ_MAX_TOKENS
-        )
-
-        self.client_openrouter = ChatOpenAI(
-            api_key=settings.OPENROUTER_API_KEY,
-            base_url=settings.OPENROUTER_BASE_URL,
-            model=settings.OPENROUTER_MODEL,
-            max_tokens=settings.OPENROUTER_MAX_TOKENS,
-            temperature=settings.OPENROUTER_TEMPERATURE,
-            extra_headers={
-                "HTTP-Referer": "https://trimfit-resume-tailor.com",
-                "X-Title": "TrimFit Resume Tailor",
-            }
-        )
+        # self.client_openrouter = ChatOpenAI(
+        #     api_key=settings.OPENROUTER_API_KEY,
+        #     base_url=settings.OPENROUTER_BASE_URL,
+        #     model=settings.OPENROUTER_MODEL,
+        #     max_tokens=settings.OPENROUTER_MAX_TOKENS,
+        #     temperature=settings.OPENROUTER_TEMPERATURE,
+        #     model_kwargs={
+        #         "extra_headers": {
+        #             "HTTP-Referer": "https://trimfit-resume-tailor.com",
+        #             "X-Title": "TrimFit Resume Tailor",
+        #         }
+        #     }
+        # )
 
         self.client_huggingface = self._initialize_huggingface()
 
     def _initialize_huggingface(self):
         try:
-            logger.info(
-                f"Initializing Hugging Face API client: {settings.HUGGINGFACE_MODEL}")
-
             llm = HuggingFaceEndpoint(
                 repo_id=settings.HUGGINGFACE_MODEL,
                 huggingfacehub_api_token=settings.HUGGINGFACE_API_KEY,
                 max_new_tokens=settings.HUGGINGFACE_MAX_TOKENS,
                 temperature=settings.HUGGINGFACE_TEMPERATURE
             )
-            
-            return ChatHuggingFace(llm=llm)
 
+            return ChatHuggingFace(llm=llm)
         except Exception as e:
             logger.error(f"Failed to initialize Hugging Face client: {str(e)}")
-            logger.warning("Falling back to OpenRouter client")
-            return self.client_openrouter
+            raise e
 
     def extract_resume_sections(self, resume_text: str) -> Dict[str, Any]:
         prompt = """You are a professional resume parser. Extract the following sections from the resume text and return them in a clean JSON format:

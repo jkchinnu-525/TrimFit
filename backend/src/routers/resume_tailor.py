@@ -1,9 +1,6 @@
 from fastapi import APIRouter, File, UploadFile, Form, HTTPException
-import os
-import time
-import logging
-import tempfile
-from typing import Dict, Any
+import os, time, logging, tempfile
+from typing import Dict, Any, List
 from fastapi.responses import FileResponse
 from pathlib import Path
 from ..services.document_parser import DocumentParser
@@ -18,6 +15,7 @@ router = APIRouter(
     prefix=f"{settings.API_V1_STR}/tailor", tags=["Resume Tailoring"])
 
 document_parser = DocumentParser()
+
 
 @router.post("/quick-tailor")
 async def quick_tailor_existing_resume(
@@ -39,13 +37,12 @@ async def quick_tailor_existing_resume(
         logger.error(f"Quick tailoring failed: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @router.post("/tailor-resume-json-and-docx")
 async def tailor_resume_with_both_outputs(
     job_description: str = Form(...),
-    resume_file: UploadFile = File(...)
+    resume_file: UploadFile = File(...),
 ):
-    start_time = time.time()
-    processing_steps = []
     temp_files = []
 
     try:
@@ -68,7 +65,7 @@ async def tailor_resume_with_both_outputs(
             parsed_data['raw_text'])
         tailored_result = await ai_resume_tailor_service.tailor_complete_resume(
             extracted_resume_data,
-            job_description
+            job_description,
         )
 
         tailored_sections = tailored_result["tailored_resume"]
@@ -107,23 +104,15 @@ async def tailor_resume_with_both_outputs(
 
         os.unlink(output_file_path)
 
-        processing_time = time.time() - start_time
 
         return {
             "success": True,
             "message": "Resume processed and tailored successfully",
-            "processing_time": processing_time,
             "data": {
-                "extracted_resume": extracted_resume_data,
-                "tailored_resume": tailored_result["tailored_resume"],
-                "job_analysis": tailored_result["job_analysis"],
-                "changes_made": tailored_result["changes_made"],
-                "match_score": tailored_result["match_score"],
                 "text_suggestions": tailored_result.get("text_suggestions", {}),
                 "download_info": {
                     "file_id": file_id,
                     "download_url": f"{settings.API_V1_STR}/tailor/download/{file_id}",
-                    "expires_in_seconds": 3600  # 1 hour
                 }
             }
         }
@@ -138,7 +127,7 @@ async def tailor_resume_with_both_outputs(
                     pass
         raise HTTPException(status_code=500, detail=str(e))
 
-    finally:    
+    finally:
         if os.path.exists(original_file_path):
             try:
                 os.unlink(original_file_path)

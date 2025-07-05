@@ -23,7 +23,10 @@ class DocumentParser:
 
         try:
             self.sentence_transformer = SentenceTransformer(
-                settings.SENTENCE_TRANSFORMER_MODEL)
+                settings.SENTENCE_TRANSFORMER_MODEL,
+                device='cpu',
+                cache_folder='./.sentence_transformers_cache'
+            )
         except Exception as e:
             logger.error(
                 f"Sentence Transformer Model not found::{settings.SENTENCE_TRANSFORMER_MODEL}")

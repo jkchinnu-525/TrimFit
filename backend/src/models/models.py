@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, List, Any, Dict
+from typing import Optional, List, Dict
 
 
 class ResumeSection(BaseModel):

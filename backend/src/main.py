@@ -13,7 +13,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000", "https://trim-fit.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -21,6 +21,7 @@ app.add_middleware(
 
 app.include_router(document_upload.router)
 app.include_router(resume_tailor.router)
+
 
 @app.get('/')
 async def root():

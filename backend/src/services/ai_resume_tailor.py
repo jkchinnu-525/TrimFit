@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Dict, Any
+from typing import Dict, Any, List
 from langchain_anthropic import ChatAnthropic
 from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
@@ -14,40 +14,36 @@ logger = logging.getLogger(__name__)
 
 class ResumeTailorService:
     def __init__(self):
-        if not settings.HUGGINGFACE_API_KEY:
-            raise ValueError(
-                "HUGGINGFACE_API_KEY is not set in the environment variables")
 
-        self.client = ChatAnthropic(
-            api_key=settings.ANTHROPIC_API_KEY,
-            model=settings.ANTHROPIC_MODEL,
-        )
+        # self.client = ChatAnthropic(
+        #     api_key=settings.ANTHROPIC_API_KEY,
+        #     model=settings.ANTHROPIC_MODEL,
+        # )
 
-        self.client_groq = ChatGroq(
-            api_key=settings.GROQ_API_KEY,
-            model=settings.GROQ_MODEL,
-            max_tokens=settings.GROQ_MAX_TOKENS,
-            temperature=0.1
-        )
-        self.client_openrouter = ChatOpenAI(
-            api_key=settings.OPENROUTER_API_KEY,
-            base_url=settings.OPENROUTER_BASE_URL,
-            model=settings.OPENROUTER_MODEL,
-            max_tokens=settings.OPENROUTER_MAX_TOKENS,
-            temperature=settings.OPENROUTER_TEMPERATURE,
-            extra_headers={
-                "HTTP-Referer": "https://trimfit-resume-tailor.com",
-                "X-Title": "TrimFit Resume Tailor",
-            }
-        )
+        # self.client_groq = ChatGroq(
+        #     api_key=settings.GROQ_API_KEY,
+        #     model=settings.GROQ_MODEL,
+        #     max_tokens=settings.GROQ_MAX_TOKENS,
+        #     temperature=0.1
+        # )
+        # self.client_openrouter = ChatOpenAI(
+        #     api_key=settings.OPENROUTER_API_KEY,
+        #     base_url=settings.OPENROUTER_BASE_URL,
+        #     model=settings.OPENROUTER_MODEL,
+        #     max_tokens=settings.OPENROUTER_MAX_TOKENS,
+        #     temperature=settings.OPENROUTER_TEMPERATURE,
+        #     model_kwargs={
+        #         "extra_headers": {
+        #             "HTTP-Referer": "https://trimfit-resume-tailor.com",
+        #             "X-Title": "TrimFit Resume Tailor",
+        #         }
+        #     }
+        # )
 
-        self.client_huggingface = self._initialize_huggingface()
+        self.client = self._initialize_huggingface()
 
     def _initialize_huggingface(self):
         try:
-            logger.info(
-                f"Initializing Hugging Face API client: {settings.HUGGINGFACE_MODEL}")
-
             llm = HuggingFaceEndpoint(
                 repo_id=settings.HUGGINGFACE_MODEL,
                 huggingfacehub_api_token=settings.HUGGINGFACE_API_KEY,
@@ -58,8 +54,7 @@ class ResumeTailorService:
 
         except Exception as e:
             logger.error(f"Failed to initialize Hugging Face client: {str(e)}")
-            logger.warning("Falling back to OpenRouter client")
-            return self.client_openrouter
+            raise e
 
     async def tailor_resume_section(self, section_name: str, section_content: str, job_requirements: Dict[str, Any]) -> Dict[str, Any]:
 
@@ -117,7 +112,11 @@ GUIDELINES:
 5. **Create Clear Categories**: Use meaningful category names that make sense
 
 Focus on these key areas: {required_skills}
-Keep the structure clean and scannable.""",
+
+CRITICAL: For skills section, return the EXACT SAME STRUCTURE as the input but with reorganized/enhanced content.
+If input is a dictionary with categories like {{"programming_languages": [...], "web_technologies": [...]}}, 
+return the same dictionary structure with improved skill lists.
+Do NOT convert to a text description - maintain the original data structure.""",
 
             "projects": """Enhance project descriptions to better showcase relevant technical skills and achievements.
 
@@ -142,45 +141,19 @@ Transform descriptions to show technical depth and business value."""
         if section_name not in section_prompts:
             return {"original": section_content, "tailored": section_content, "changes": []}
 
-        return await self._try_with_fallback(section_name, section_content, job_requirements, section_prompts[section_name])
-
-    async def _try_with_fallback(self, section_name: str, section_content: str, job_requirements: Dict[str, Any], prompt_template: str) -> Dict[str, Any]:
-
         try:
-            result = await self._try_model(self.client_huggingface, "HuggingFace", section_name, section_content, job_requirements, prompt_template)
-            if result and "JSON parsing failed" not in str(result.get("changes", [])):
-                return result
-        except Exception as e:
-            logger.warning(f"HuggingFace failed for {section_name}: {str(e)}")
+            formatted_prompt = section_prompts[section_name].format(
+                required_skills=",".join(
+                    job_requirements.get("required_skills", [])),
+                keywords=",".join(job_requirements.get("keywords", [])),
+                responsibilities=",".join(
+                    job_requirements.get("responsibilities", [])[:3]),
+                industry_domain=job_requirements.get("industry_domain", ""),
+                experience_level=job_requirements.get("experience_level", "")
+            )
 
-        try:
-            logger.info(f"Falling back to OpenRouter for {section_name}")
-            result = await self._try_model(self.client_openrouter, "OpenRouter", section_name, section_content, job_requirements, prompt_template)
-            if result:
-                return result
-        except Exception as e:
-            logger.error(
-                f"OpenRouter also failed for {section_name}: {str(e)}")
-
-        return {
-            "original": section_content,
-            "tailored": section_content,
-            "changes": ["Both AI models failed - content preserved unchanged"]
-        }
-
-    async def _try_model(self, client, model_name: str, section_name: str, section_content: str, job_requirements: Dict[str, Any], prompt_template: str) -> Dict[str, Any]:
-        formatted_prompt = prompt_template.format(
-            required_skills=",".join(
-                job_requirements.get("required_skills", [])),
-            keywords=",".join(job_requirements.get("keywords", [])),
-            responsibilities=",".join(
-                job_requirements.get("responsibilities", [])[:3]),
-            industry_domain=job_requirements.get("industry_domain", ""),
-            experience_level=job_requirements.get("experience_level", "")
-        )
-
-        messages = [
-            SystemMessage(content=f"""You are an expert resume writer who creates compelling, natural-sounding content. 
+            messages = [
+                SystemMessage(content=f"""You are an expert resume writer who creates compelling, natural-sounding content. 
 
 CORE PRINCIPLES:
 - **Human-First Writing**: Write as if you're a skilled professional telling their story, not a robot listing keywords
@@ -200,87 +173,58 @@ RESPONSE FORMAT - Return ONLY a valid JSON object:
 
 CRITICAL: Your response must be ONLY the JSON object above. No additional text, no markdown, no explanations.
 The 'tailored' content should sound like it was written by a human professional, not an AI."""),
-            HumanMessage(
-                content=f"Original content: {json.dumps(section_content)}")
-        ]
+                HumanMessage(
+                    content=f"Original content: {json.dumps(section_content)}")
+            ]
 
-        response = client.invoke(messages)
-        content = response.content.strip()
+            response = self.client.invoke(messages)
+            content = response.content.strip()
 
-        logger.info(
-            f"Raw {model_name} response for {section_name}: {content[:500]}...")
+            if content.startswith("```json"):
+                content = content[7:-3].strip()
+            elif content.startswith("```"):
+                start_idx = content.find('{')
+                end_idx = content.rfind('}') + 1
+                if start_idx != -1 and end_idx != 0:
+                    content = content[start_idx:end_idx]
 
-        if content.startswith("```json"):
-            content = content[7:-3].strip()
-        elif content.startswith("```"):
-            start_idx = content.find('{')
-            end_idx = content.rfind('}') + 1
-            if start_idx != -1 and end_idx != 0:
-                content = content[start_idx:end_idx]
+            content = content.strip()
+            if not content.startswith('{'):
+                start_idx = content.find('{')
+                end_idx = content.rfind('}') + 1
+                if start_idx != -1 and end_idx != 0:
+                    content = content[start_idx:end_idx]
+                else:
+                    logger.error(f"No valid JSON found in response: {content}")
+                    return {
+                        "original": section_content,
+                        "tailored": section_content,
+                        "changes": ["Error: No valid JSON found in response"]
+                    }
 
-        content = content.strip()
-        if not content.startswith('{'):
-            start_idx = content.find('{')
-            end_idx = content.rfind('}') + 1
-            if start_idx != -1 and end_idx != 0:
-                content = content[start_idx:end_idx]
-            else:
+            try:
+                result = json.loads(content)
+                return result
+            except json.JSONDecodeError as json_error:
                 logger.error(
-                    f"No valid JSON found in {model_name} response: {content}")
+                    f"JSON decode error for {section_name}: {json_error}")
+                logger.error(f"Content that failed to parse: {content}")
                 return {
                     "original": section_content,
                     "tailored": section_content,
-                    "changes": [f"Parsing error: No valid JSON found in {model_name}"]
+                    "changes": [f"JSON parsing failed: {str(json_error)}"]
                 }
 
-        logger.info(f"Cleaned content for parsing: {content[:200]}...")
-
-        try:
-            result = json.loads(content)
-            logger.info(
-                f"Successfully parsed JSON from {model_name} for {section_name}")
-            return result
-        except json.JSONDecodeError as json_error:
-            logger.error(
-                f"JSON decode error from {model_name} for {section_name}: {json_error}")
-            logger.error(f"Content that failed to parse: {content}")
-
+        except Exception as e:
+            logger.error(f"Error processing {section_name}: {str(e)}")
             return {
                 "original": section_content,
                 "tailored": section_content,
-                "changes": [f"JSON parsing failed in {model_name}: {str(json_error)}"]
+                "changes": [f"Processing error: {str(e)}"]
             }
 
-    async def calculate_match_score(self, resume_data: Dict[str, Any], job_requirements: Dict[str, Any]) -> float:
-        score = 0.0
-        total_weight = 0.0
-
-        resume_skills = set()
-
-        if "skills" in resume_data:
-            skills_data = resume_data["skills"]
-            for category in ["programming_languages", "web_technologies", "databases", "devops_tools"]:
-                resume_skills.update([s.lower()
-                                     for s in skills_data.get(category, [])])
-
-        required_skills = set(s.lower()
-                              for s in job_requirements.get("required_skills", []))
-        if required_skills:
-            skill_match = len(resume_skills.intersection(
-                required_skills))/len(required_skills)
-            score += skill_match * 40
-            total_weight += 30
-        if resume_data.get("experience"):
-            score += 30
-            total_weight += 30
-
-        return score / total_weight if total_weight > 0 else 0.0
-
     async def tailor_complete_resume(self, resume_data: Dict[str, Any], job_description: str) -> Dict[str, Any]:
-
         job_requirements = await jd_analyzer.extract_job_requirements(job_description)
-
-        initial_score = await self.calculate_match_score(resume_data, job_requirements)
 
         tailored_sections = {}
         changes_made = {}
@@ -297,13 +241,7 @@ The 'tailored' content should sound like it was written by a human professional,
             'projects', 'experience'
         }
 
-        logger.info(f"Tailoring only these sections: {sections_to_tailor}")
-        logger.info(
-            f"Preserving these sections unchanged: {sections_to_preserve}")
-        logger.info(f"Generating text suggestions for: {sections_to_suggest}")
-
         if resume_data.get("professional_summary") and "professional_summary" in sections_to_tailor:
-            logger.info("Tailoring professional summary section")
             tailored_summary = await self.tailor_resume_section(
                 "professional_summary",
                 resume_data["professional_summary"],
@@ -314,32 +252,35 @@ The 'tailored' content should sound like it was written by a human professional,
                 "changes", [])
 
         if resume_data.get("skills") and "skills" in sections_to_tailor:
-            logger.info("Tailoring skills section")
             result = await self.tailor_resume_section(
                 "skills",
                 resume_data["skills"],
                 job_requirements
             )
-            tailored_sections["skills"] = result["tailored"]
+            tailored_skills = result["tailored"]
+            if isinstance(tailored_skills, str):
+                try:
+                    tailored_skills = json.loads(tailored_skills)
+                except:
+                    tailored_skills = resume_data["skills"]
+
+            tailored_sections["skills"] = tailored_skills
             changes_made["skills"] = result.get("changes", [])
 
-        excluded_sections = []
-        for section in ["experience", "education", "projects", "certifications", "achievements"]:
-            if resume_data.get(section):
-                excluded_sections.append(section)
-                logger.info(f"PRESERVING section unchanged: {section}")
+        # Preserve other sections unchanged
+        for section in sections_to_preserve:
+            if section in resume_data:
+                tailored_sections[section] = resume_data[section]
 
         text_suggestions = {}
         for section_name in sections_to_suggest:
             if resume_data.get(section_name):
-                logger.info(f"Generating text suggestions for: {section_name}")
                 suggestion_result = await self.tailor_resume_section(
                     section_name,
                     resume_data[section_name],
                     job_requirements
                 )
                 text_suggestions[section_name] = {
-                    "original": suggestion_result["original"],
                     "suggested_improvements": suggestion_result["tailored"],
                     "recommended_changes": suggestion_result.get("changes", [])
                 }
@@ -347,29 +288,8 @@ The 'tailored' content should sound like it was written by a human professional,
         if "personal_info" in resume_data:
             tailored_sections["personal_info"] = resume_data["personal_info"]
 
-        logger.info(
-            f"Final tailored sections keys: {list(tailored_sections.keys())}")
-        logger.info(
-            f"Excluded sections (will be preserved): {excluded_sections}")
-        logger.info(
-            f"Generated text suggestions for: {list(text_suggestions.keys())}")
-
-        scoring_data = {**resume_data}
-        for key, value in tailored_sections.items():
-            if key in sections_to_tailor:
-                scoring_data[key] = value
-
-        final_score = await self.calculate_match_score(scoring_data, job_requirements)
-
         return {
-            "original_resume": resume_data,
             "tailored_resume": tailored_sections,
-            "job_analysis": job_requirements,
-            "changes_made": changes_made,
-            "match_score": final_score,
-            "score_improvement": final_score - initial_score,
-            "sections_tailored": list(sections_to_tailor),
-            "sections_preserved": list(sections_to_preserve),
             "text_suggestions": text_suggestions
         }
 
