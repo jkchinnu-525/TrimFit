@@ -27,7 +27,7 @@ An AI-powered resume optimization platform that helps job seekers land more inte
 [![React](https://img.shields.io/badge/React-19.0-%2361DAFB?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.1-38B2AC?logo=tailwind-css)](https://tailwindcss.com)
-[![Framer Motion](https://img.shields.io/badge/Framer%20Motion-12.18-FF0055?logo=framer)](https://framer.com/motion)
+[![Figma](https://img.shields.io/badge/Figma-Design-F24E1E?logo=figma)](https://figma.com)
 
 **Backend** (In Development)  
 [![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)](https://python.org)
@@ -39,11 +39,12 @@ An AI-powered resume optimization platform that helps job seekers land more inte
 [![FAISS](https://img.shields.io/badge/FAISS-Vector%20Search-4B8BBE)](https://github.com/facebookresearch/faiss)
 
 **Animation & UX**  
+[![Framer Motion](https://img.shields.io/badge/Framer%20Motion-12.18-FF0055?logo=framer)](https://framer.com/motion)
 [![Lenis](https://img.shields.io/badge/Lenis-1.3-black)](https://github.com/studio-freight/lenis)
 
 **Deployment**  
 [![Vercel](https://img.shields.io/badge/Vercel-Frontend-black?logo=vercel)](https://vercel.com)
-[![Render](https://img.shields.io/badge/Render-Backend-46E3B7?logo=render)](https://render.com)
+[![DigitalOcean](https://img.shields.io/badge/DigitalOcean-Backend-0080FF?logo=digitalocean)](https://digitalocean.com)
 
 ## Setup Instructions ⚙️
 

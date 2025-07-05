@@ -219,6 +219,7 @@ logs/
 .cache/
 huggingface_hub/
 transformers_cache/
+.sentence_transformers_cache/
 
 # spaCy models (if downloaded)
 *.tar.gz
@@ -269,4 +270,8 @@ celerybeat-schedule.db
 
 # Local configuration overrides
 local_config.py
-local_settings.py 
+local_settings.py
+
+# Vector database files
+chroma_db/
+*.chroma 
