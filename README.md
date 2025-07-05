@@ -1,7 +1,5 @@
 # Trimfit - AI-Powered Resume Optimization 🚀
 
-[![Backend Deployment](https://img.shields.io/badge/Backend-In%20Development-yellow)](https://trimfit-backend.onrender.com)
-
 An AI-powered resume optimization platform that helps job seekers land more interviews faster by analyzing and tailoring resumes to specific job descriptions. Built with Next.js (frontend) and Python/FastAPI (backend), featuring advanced NLP and machine learning capabilities.
 
 ## Features ✨
