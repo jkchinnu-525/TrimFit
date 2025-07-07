@@ -44,7 +44,7 @@ An AI-powered resume optimization platform that helps job seekers land more inte
 
 **Deployment**  
 [![Vercel](https://img.shields.io/badge/Vercel-Frontend-black?logo=vercel)](https://vercel.com)
-[![DigitalOcean](https://img.shields.io/badge/DigitalOcean-Backend-0080FF?logo=digitalocean)](https://digitalocean.com)
+[![Hostinger](https://img.shields.io/badge/Hostinger-Backend-673AB7?logo=server)](https://hostinger.com)
 
 ## Setup Instructions ⚙️
 
