@@ -182,13 +182,13 @@ export default function TailorPage() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h1 className="text-[32px] md:text-[45px] lg:text-[55px] font-black font-['Noto_Serif_JP'] text-black mb-4">
+            <h1 className="text-[32px] md:text-[45px] lg:text-[55px] font-black font-Noto_Serif_JP text-black mb-4">
               Tailor Your Resume to
             </h1>
-            <h1 className="text-[32px] md:text-[45px] lg:text-[55px] font-black font-['Noto_Serif_JP'] text-[#3F8F8D] mb-6">
+            <h1 className="text-[32px] md:text-[45px] lg:text-[55px] font-black font-Noto_Serif_JP text-[#3F8F8D] mb-6">
               Land the Job
             </h1>
-            <p className="text-[16px] md:text-[18px] font-medium font-['Inter'] text-gray-600 max-w-2xl mx-auto px-4">
+            <p className="text-[16px] md:text-[18px] font-medium font-Inter text-gray-600 max-w-2xl mx-auto px-4">
               {useTemplate
                 ? "Use our professional template or upload your own resume. Our AI will analyze and optimize it for maximum impact."
                 : "Upload your resume and paste the job description. Our AI will analyze and optimize your resume for maximum impact."}
@@ -229,7 +229,7 @@ export default function TailorPage() {
             >
               <div className="backdrop-blur-sm bg-white/90 rounded-[32px] p-8 shadow-[0px_4px_24px_rgba(63,143,141,0.15)] border border-[#3F8F8D]/10">
                 <div className="flex justify-between items-center mb-8">
-                  <h2 className="text-[28px] md:text-[32px] font-bold font-['Noto_Serif_JP'] text-[#1A1A1A]">
+                  <h2 className="text-[28px] md:text-[32px] font-bold font-Noto_Serif_JP text-[#1A1A1A]">
                     Your Tailored Resume
                   </h2>
                   <div className="flex gap-4">
@@ -414,7 +414,7 @@ export default function TailorPage() {
                         d="M12 2a1 1 0 0 1 .894.553l2.991 5.657 6.182 1.127a1 1 0 0 1 .55 1.687l-4.435 4.463.977 6.537a1 1 0 0 1-1.471 1.057L12 19.82l-5.688 2.262a1 1 0 0 1-1.471-1.057l.977-6.537-4.435-4.463a1 1 0 0 1 .55-1.687l6.182-1.127 2.991-5.657A1 1 0 0 1 12 2z"
                       />
                     </svg>
-                    <p className="text-sm text-[#3F8F8D] font-['Inter']">
+                    <p className="text-sm text-[#3F8F8D] font-Inter">
                       <span className="font-medium">Note:</span> The downloaded
                       resume includes the updated Professional Summary and
                       Skills. The Work Experience and Projects suggestions above
@@ -436,7 +436,7 @@ export default function TailorPage() {
                 className="relative"
               >
                 <div className="backdrop-blur-sm bg-white/70 rounded-[32px] p-8 shadow-[0px_0px_30px_0px_rgba(63,143,141,0.15)] border border-white/30">
-                  <h2 className="text-[24px] md:text-[28px] font-['Noto_Serif_JP'] font-semibold mb-6">
+                  <h2 className="text-[24px] md:text-[28px] font-Noto_Serif_JP font-semibold mb-6">
                     {results ? "Try Another Resume" : "Choose Your Resume"}
                   </h2>
 
@@ -605,7 +605,7 @@ export default function TailorPage() {
                 className="relative"
               >
                 <div className="backdrop-blur-sm bg-white/70 rounded-[32px] p-8 shadow-[0px_0px_30px_0px_rgba(63,143,141,0.15)] border border-white/30 h-full flex flex-col">
-                  <h2 className="text-[24px] md:text-[28px] font-bold font-['Noto_Serif_JP'] text-black mb-6">
+                  <h2 className="text-[24px] md:text-[28px] font-bold font-Noto_Serif_JP text-black mb-6">
                     Job Description
                   </h2>
 
@@ -613,7 +613,7 @@ export default function TailorPage() {
                     value={jobDescription}
                     onChange={(e) => setJobDescription(e.target.value)}
                     placeholder="Paste the job description here..."
-                    className="w-full flex-grow p-4 border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-[#3F8F8D] focus:border-transparent font-['Inter'] text-sm leading-relaxed scrollbar-hide"
+                    className="w-full flex-grow p-4 border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-[#3F8F8D] focus:border-transparent font-Inter text-sm leading-relaxed scrollbar-hide"
                   />
                 </div>
               </motion.div>
@@ -695,10 +695,10 @@ export default function TailorPage() {
                     className="text-center p-6"
                   >
                     <div className="text-4xl mb-4">{feature.icon}</div>
-                    <h3 className="font-bold text-black mb-8 font-['Noto_Serif_JP']">
+                    <h3 className="font-bold text-black mb-8 font-Noto_Serif_JP">
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 font-['Inter']">
+                    <p className="text-gray-600 font-Inter">
                       {feature.description}
                     </p>
                   </motion.div>
