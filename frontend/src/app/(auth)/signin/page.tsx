@@ -74,7 +74,7 @@ export default function SignIn() {
                   name="email"
                   required
                   className="w-full px-4 py-3 rounded-2xl border border-[#3F8F8D]/30 bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#4FB3B0] focus:border-transparent transition-all duration-300 font-Inter"
-                  placeholder="Enter your email"
+                  placeholder="test@gmail.com"
                 />
               </div>
 
@@ -87,7 +87,7 @@ export default function SignIn() {
                   name="password"
                   required
                   className="w-full px-4 py-3 rounded-2xl border border-[#3F8F8D]/30 bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#4FB3B0] focus:border-transparent transition-all duration-300 font-Inter"
-                  placeholder="Enter your password"
+                  placeholder="test"
                 />
               </div>
 
