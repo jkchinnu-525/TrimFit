@@ -18,12 +18,12 @@ class JDAnalyzer:
         #     api_key=settings.ANTHROPIC_API_KEY,
         #     model=settings.ANTHROPIC_MODEL,
         # )
-        # self.client_groq = ChatGroq(
-        #     api_key=settings.GROQ_API_KEY,
-        #     model=settings.GROQ_MODEL,
-        #     max_tokens=settings.GROQ_MAX_TOKENS,
-        #     temperature=0.1
-        # )
+        self.client_groq = ChatGroq(
+            api_key=settings.GROQ_API_KEY,
+            model=settings.GROQ_MODEL,
+            max_tokens=settings.GROQ_MAX_TOKENS,
+            temperature=0.1
+        )
 
         # self.client_openrouter = ChatOpenAI(
         #     api_key=settings.OPENROUTER_API_KEY,
@@ -90,7 +90,7 @@ class JDAnalyzer:
                 SystemMessage(content=prompt),
                 HumanMessage(content=user_prompt)
             ]
-            response = self.client_huggingface.invoke(messages)
+            response = self.client_groq.invoke(messages)
             content = response.content.strip()
             if content.startswith("```json"):
                 content = content[7:-3]

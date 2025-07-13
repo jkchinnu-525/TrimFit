@@ -20,12 +20,12 @@ class ResumeTailorService:
         #     model=settings.ANTHROPIC_MODEL,
         # )
 
-        # self.client_groq = ChatGroq(
-        #     api_key=settings.GROQ_API_KEY,
-        #     model=settings.GROQ_MODEL,
-        #     max_tokens=settings.GROQ_MAX_TOKENS,
-        #     temperature=0.1
-        # )
+        self.client_groq = ChatGroq(
+            api_key=settings.GROQ_API_KEY,
+            model=settings.GROQ_MODEL,
+            max_tokens=settings.GROQ_MAX_TOKENS,
+            temperature=0.1
+        )
         # self.client_openrouter = ChatOpenAI(
         #     api_key=settings.OPENROUTER_API_KEY,
         #     base_url=settings.OPENROUTER_BASE_URL,
@@ -177,7 +177,7 @@ The 'tailored' content should sound like it was written by a human professional,
                     content=f"Original content: {json.dumps(section_content)}")
             ]
 
-            response = self.client.invoke(messages)
+            response = self.client_groq.invoke(messages)
             content = response.content.strip()
 
             if content.startswith("```json"):

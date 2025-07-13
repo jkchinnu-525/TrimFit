@@ -23,11 +23,11 @@ class AIExtractor:
         #     model=settings.OPENAI_MODEL
         # )
 
-        # self.client_groq = ChatGroq(
-        #     api_key=settings.GROQ_API_KEY,
-        #     model=settings.GROQ_MODEL,
-        #     max_tokens=settings.GROQ_MAX_TOKENS
-        # )
+        self.client_groq = ChatGroq(
+            api_key=settings.GROQ_API_KEY,
+            model=settings.GROQ_MODEL,
+            max_tokens=settings.GROQ_MAX_TOKENS
+        )
 
         # self.client_openrouter = ChatOpenAI(
         #     api_key=settings.OPENROUTER_API_KEY,
@@ -86,7 +86,7 @@ class AIExtractor:
                 HumanMessage(content=user_prompt)
             ]
 
-            response = self.client_huggingface.invoke(messages)
+            response = self.client_groq.invoke(messages)
             content = response.content.strip()
             if content.startswith("```json"):
                 content = content[7:-3]
