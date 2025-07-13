@@ -36,7 +36,7 @@ export async function tailorResume(
   formData.append("resume_file", resumeFile);
   formData.append("job_description", jobDescription);
 
-  onProgress?.("Processing with AI...(max - 90secs)");
+  onProgress?.("Processing with AI...(max - 20secs)");
 
   const response = await axios.post(
     `${API_BASE_URL}/api/v1/tailor/tailor-resume-json-and-docx`,
